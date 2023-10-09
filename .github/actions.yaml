@@ -1,0 +1,21 @@
+name: Java CheckStyle Lint
+on:
+  push:
+    branches:
+      - [master, main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+
+      - name: Run Checkstyle Lint
+        run: |
+          ./gradlew checkstyleMain # Replace with your build system's Checkstyle command
+        # working-directory: ./path/to/your/java/project # Replace with the path to your Java project
