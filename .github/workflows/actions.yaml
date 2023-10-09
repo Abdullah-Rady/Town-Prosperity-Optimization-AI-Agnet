@@ -1,23 +1,21 @@
-name: Java CheckStyle Lint
+name: Lint Java code
+
 on:
   push:
     branches:
-      - master
       - main
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-      - uses: actions/checkout@v3
-      
-      - name: Setup Java
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '8'
 
-      - name: Run Checkstyle Lint
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Checkstyle
         run: |
-          ./gradlew checkstyleMain # Replace with your build system's Checkstyle command
-        # working-directory: ./path/to/your/java/project # Replace with the path to your Java project
+          sudo apt update
+          sudo apt install checkstyle
+
+      - name: Lint Java code
+        run: checkstyle -c checkstyle.xml src
