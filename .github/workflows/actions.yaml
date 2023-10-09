@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Install Checkstyle
-        run: sudo apt update && sudo apt install checkstyle
-
-      - name: Install commons-cli
-        run: sudo apt install commons-cli
-
-      - name: Lint Java code
-        run: checkstyle -c checkstyle.xml src
-
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      
+      - name: Install linter 
+        run: npm install mega-linter-runner -g
   
