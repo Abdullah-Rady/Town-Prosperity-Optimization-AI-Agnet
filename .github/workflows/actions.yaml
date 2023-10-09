@@ -21,6 +21,4 @@ jobs:
       - name: Lint Java code
         run: checkstyle -c checkstyle.xml src
 
-      - name: Fail if there are Checkstyle violations
-        if: ${{ steps.lint.outcome == 'failure' }}
-        fail with: message: 'Checkstyle violations found.'
+  

@@ -25,15 +25,15 @@ public class GraphTraversal {
     }
 
     // Function to perform Depth-First Search (DFS)
-    public static void dfs(List<List<Integer>> adjList, int start) {
+    public static void dfs(List<List<Integer>>adjList, int start) {
         int numVertices = adjList.size();
-        boolean[] visited = new boolean[numVertices];
+        boolean[] visited=new boolean[numVertices];
         dfsRecursive(adjList, start, visited);
     }
 
     private static void dfsRecursive(List<List<Integer>> adjList, int vertex, boolean[] visited) {
-        visited[vertex] = true;
-        System.out.print(vertex + " ");
+        visited[vertex]= true;
+        System.out.print(vertex+" ");
 
         for (int neighbor : adjList.get(vertex)) {
             if (!visited[neighbor]) {
