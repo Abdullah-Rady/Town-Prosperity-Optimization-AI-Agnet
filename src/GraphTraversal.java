@@ -43,6 +43,8 @@ public class GraphTraversal {
     }
 
     public static void main(String[] args) {
+
+        int mananana=2;
         int numVertices = 6;
         List<List<Integer>> adjList = new ArrayList<>(numVertices);
 
