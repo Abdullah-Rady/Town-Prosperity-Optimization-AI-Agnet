@@ -10,7 +10,7 @@ public class LLAPSearch extends GenericSearch {
      * @return
      */
     @Override
-    public List<String> solve(String initialStateStr, String strategy, Boolean visualize) {
+    public String solve(String initialStateStr, String strategy, Boolean visualize) {
         return null;
     }
 }
