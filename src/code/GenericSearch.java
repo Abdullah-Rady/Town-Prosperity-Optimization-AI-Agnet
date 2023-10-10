@@ -9,7 +9,9 @@ public abstract class GenericSearch {
 
 
     public String solve(String initialStateStr, String strategy, Boolean visualize){
+
         Queue<Node> nodes = new LinkedList<>();
+        
         nodes.add(new Node());
 
         while (!nodes.isEmpty()) {
@@ -26,7 +28,7 @@ public abstract class GenericSearch {
     }
 
     public Queue<Node> enqueue(Queue<Node> nodes , Node node){
-        // TODO
+        // TO DO
         return new LinkedList<>();
     }
 

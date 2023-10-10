@@ -2,6 +2,8 @@ package code;
 
 import java.util.ArrayList;
 import java.util.List;
+import code.TownState;
+
 
 public class Node {
     TownState state;
@@ -24,12 +26,12 @@ public class Node {
     }
 
     public boolean isGoal(){
-        // TODO
+        // TO DO
         return false;
     }
 
     public String steps() {
-        // TODO
+        // TO DO
         return "";
     }
 }

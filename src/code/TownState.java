@@ -2,7 +2,6 @@ package code;
 public class TownState {
 
 
-
     final int MAX_RESOURCE_CAPACITY = 50;
     int budget = 100000;
     int prosperity;
@@ -113,14 +112,14 @@ public class TownState {
      *
      * @return true if the town has achieved prosperity, otherwise false.
      */
+    boolean isProsperous() {
+        return prosperity >= 100;
+    }
 
     boolean canConsumeResources() {
         return (food > 0 && materials > 0 && energy > 0);
     }
 
-    boolean isProsperous() {
-        return prosperity >= 100;
-    }
 
     // ? is requesting food / materials / energy allowed if the there is a pending
     // delivery
@@ -140,7 +139,7 @@ public class TownState {
                 && (energy < amountRequestEnergy && unitPriceEnergy * amountRequestEnergy <= budget);
     }
 
-    // only wait if there is a pending delivery
+    // only allowed to wait if there is a pending delivery
     boolean canWait() {
         return canConsumeResources();
     }
@@ -157,11 +156,11 @@ public class TownState {
                 && budget >= priceBUILD2 && prosperity + prosperityBUILD2 < 100);
     }
 
-    // TODO: Implement actions to update the town's state
+    // TO DO: Implement actions to update the town's state
 
     // for actions we need to delay request material, food and energy
 
-    // TODO: Implement an update function that will run in every step to check if
+    // TO DO: Implement an update function that will run in every step to check if
     // the pending deliveries arrived or not
 
 }

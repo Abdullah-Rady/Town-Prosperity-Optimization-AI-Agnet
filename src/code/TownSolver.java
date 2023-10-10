@@ -1,6 +1,7 @@
 package code;
 
 import java.util.*;
+import code.TownState;
 
 public class TownSolver {
 
@@ -21,47 +22,47 @@ public class TownSolver {
         List<String> search(TownState initialState);
     }
 
-    // TODO: Implement BFS search strategy
+    // TO DO: Implement BFS search strategy
     static class BFS implements SearchStrategy {
         @Override
         public List<String> search(TownState initialState) {
-            // TODO: Implement BFS search algorithm here
+            // TO DO: Implement BFS search algorithm here
             // ...
             return null;
         }
     }
 
-    // TODO: Implement DFS search strategy
+    // TO DO: Implement DFS search strategy
     static class DFS implements SearchStrategy {
         @Override
         public List<String> search(TownState initialState) {
-            // TODO: Implement DFS search algorithm here
+            // TO DO: Implement DFS search algorithm here
             // ...
             return null;
         }
     }
 
-    // TODO: Implement ID search strategy
+    // TO DO: Implement ID search strategy
     static class ID implements SearchStrategy {
         @Override
         public List<String> search(TownState initialState) {
-            // TODO: Implement iterative deepening search algorithm here
+            // TO DO: Implement iterative deepening search algorithm here
             // ...
             return null; // Replace with the actual sequence of steps
         }
     }
 
-    // TODO: Implement UC search strategy
+    // TO DO: Implement UC search strategy
     static class UC implements SearchStrategy {
         @Override
         public List<String> search(TownState initialState) {
-            // TODO: Implement uniform cost search algorithm here
+            // TO DO: Implement uniform cost search algorithm here
             // ...
             return null; // Replace with the actual sequence of steps
         }
     }
 
-    // TODO: Implement Greedy search strategy (GR1 and GR2)
+    // TO DO: Implement Greedy search strategy (GR1 and GR2)
     static class Greedy implements SearchStrategy {
         private int heuristicChoice;
 
@@ -71,13 +72,13 @@ public class TownSolver {
 
         @Override
         public List<String> search(TownState initialState) {
-            // TODO:Implement greedy search algorithm with specified heuristic
+            // TO DO: Implement greedy search algorithm with specified heuristic
             // ...
             return null; // Replace with the actual sequence of steps
         }
     }
 
-    // TODO: Implement A* search strategy (AS1 and AS2)
+    // TO DO: Implement A* search strategy (AS1 and AS2)
     static class AStar implements SearchStrategy {
         private int heuristicChoice;
 
@@ -87,7 +88,7 @@ public class TownSolver {
 
         @Override
         public List<String> search(TownState initialState) {
-            // TODO : Implement A* search algorithm with specified heuristic
+            // TO DO : Implement A* search algorithm with specified heuristic
             // ...
             return null;
         }
