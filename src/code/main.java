@@ -2,6 +2,7 @@ package code;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 import javax.swing.Action;
@@ -28,8 +29,7 @@ public class main {
 
         Node initial = new Node(constants.getInitialState(), null, null, 0, 0);
         Stack<Node> stack = new Stack<>();
-
-        HashSet<TownSearchNode> visited = new HashSet<>();
+        Set<TownSearchNode> visited = new HashSet<>();
 
         stack.push(initial);
 
