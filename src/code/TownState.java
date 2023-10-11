@@ -28,83 +28,60 @@ public class TownState {
     int energyUseBUILD2;
     int prosperityBUILD2;
 
-    TownState(String initialStateStr) {
-        // Split the input string using the delimiter ";"
-        String[] parts = initialStateStr.split(";");
+    public TownState(
+        int prosperity,
+        int food,
+        int materials,
+        int energy,
+        int unitPriceFood,
+        int unitPriceMaterials,
+        int unitPriceEnergy,
+        int amountRequestFood,
+        int delayRequestFood,
+        int amountRequestMaterial,
+        int delayRequestMaterial,
+        int amountRequestEnergy,
+        int delayRequestEnergy,
+        int priceBUILD1,
+        int foodUseBUILD1,
+        int materialsUseBUILD1,
+        int energyUseBUILD1,
+        int prosperityBUILD1,
+        int priceBUILD2,
+        int foodUseBUILD2,
+        int materialsUseBUILD2,
+        int energyUseBUILD2,
+        int prosperityBUILD2
+    ) {
+        this.prosperity = prosperity;
+        this.food = food;
+        this.materials = materials;
+        this.energy = energy;
 
-        // Ensure that the input string has the correct number of parts
-        if (parts.length != 9) {
-            throw new IllegalArgumentException("Invalid initial state string format.");
-        }
+        this.unitPriceFood = unitPriceFood;
+        this.unitPriceMaterials = unitPriceMaterials;
+        this.unitPriceEnergy = unitPriceEnergy;
 
-        try {
-            // Parse each part and assign the values to their respective variables
-            int initialProsperity = Integer.parseInt(parts[0].trim());
+        this.amountRequestFood = amountRequestFood;
+        this.delayRequestFood = delayRequestFood;
 
-            String[] resourceLevels = parts[1].trim().split(",");
-            int initialFood = Integer.parseInt(resourceLevels[0].trim());
-            int initialMaterials = Integer.parseInt(resourceLevels[1].trim());
-            int initialEnergy = Integer.parseInt(resourceLevels[2].trim());
+        this.amountRequestMaterial = amountRequestMaterial;
+        this.delayRequestMaterial = delayRequestMaterial;
 
-            String[] unitPrices = parts[2].trim().split(",");
-            int unitPriceFood = Integer.parseInt(unitPrices[0].trim());
-            int unitPriceMaterials = Integer.parseInt(unitPrices[1].trim());
-            int unitPriceEnergy = Integer.parseInt(unitPrices[2].trim());
+        this.amountRequestEnergy = amountRequestEnergy;
+        this.delayRequestEnergy = delayRequestEnergy;
 
-            String[] foodDelivery = parts[3].trim().split(",");
-            int amountRequestFood = Integer.parseInt(foodDelivery[0].trim());
-            int delayRequestFood = Integer.parseInt(foodDelivery[1].trim());
-
-            String[] materialsDelivery = parts[4].trim().split(",");
-            int amountRequestMaterials = Integer.parseInt(materialsDelivery[0].trim());
-            int delayRequestMaterials = Integer.parseInt(materialsDelivery[1].trim());
-
-            String[] energyDelivery = parts[5].trim().split(",");
-            int amountRequestEnergy = Integer.parseInt(energyDelivery[0].trim());
-            int delayRequestEnergy = Integer.parseInt(energyDelivery[1].trim());
-
-            String[] build1Values = parts[6].trim().split(",");
-            int priceBUILD1 = Integer.parseInt(build1Values[0].trim());
-            int foodUseBUILD1 = Integer.parseInt(build1Values[1].trim());
-            int materialsUseBUILD1 = Integer.parseInt(build1Values[2].trim());
-            int energyUseBUILD1 = Integer.parseInt(build1Values[3].trim());
-            int prosperityBUILD1 = Integer.parseInt(build1Values[4].trim());
-
-            String[] build2Values = parts[7].trim().split(",");
-            int priceBUILD2 = Integer.parseInt(build2Values[0].trim());
-            int foodUseBUILD2 = Integer.parseInt(build2Values[1].trim());
-            int materialsUseBUILD2 = Integer.parseInt(build2Values[2].trim());
-            int energyUseBUILD2 = Integer.parseInt(build2Values[3].trim());
-            int prosperityBUILD2 = Integer.parseInt(build2Values[4].trim());
-
-            this.prosperity = initialProsperity;
-            this.food = initialFood;
-            this.materials = initialMaterials;
-            this.energy = initialEnergy;
-            this.unitPriceFood = unitPriceFood;
-            this.unitPriceMaterials = unitPriceMaterials;
-            this.unitPriceEnergy = unitPriceEnergy;
-            this.amountRequestFood = amountRequestFood;
-            this.delayRequestFood = delayRequestFood;
-            this.amountRequestEnergy = amountRequestEnergy;
-            this.delayRequestEnergy = delayRequestEnergy;
-            this.amountRequestMaterial = amountRequestMaterials;
-            this.delayRequestMaterial = delayRequestMaterials;
-            this.priceBUILD1 = priceBUILD1;
-            this.foodUseBUILD1 = foodUseBUILD1;
-            this.materialsUseBUILD1 = materialsUseBUILD1;
-            this.energyUseBUILD1 = energyUseBUILD1;
-            this.prosperityBUILD1 = prosperityBUILD1;
-            this.priceBUILD2 = priceBUILD2;
-            this.foodUseBUILD2 = foodUseBUILD2;
-            this.materialsUseBUILD2 = materialsUseBUILD2;
-            this.energyUseBUILD2 = energyUseBUILD2;
-            this.prosperityBUILD2 = prosperityBUILD2;
-
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid number format in initial state string.", e);
-        }
-
+        this.priceBUILD1 = priceBUILD1;
+        this.foodUseBUILD1 = foodUseBUILD1;
+        this.materialsUseBUILD1 = materialsUseBUILD1;
+        this.energyUseBUILD1 = energyUseBUILD1;
+        this.prosperityBUILD1 = prosperityBUILD1;
+        
+        this.priceBUILD2 = priceBUILD2;
+        this.foodUseBUILD2 = foodUseBUILD2;
+        this.materialsUseBUILD2 = materialsUseBUILD2;
+        this.energyUseBUILD2 = energyUseBUILD2;
+        this.prosperityBUILD2 = prosperityBUILD2;
     }
 
     /**
