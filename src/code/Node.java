@@ -2,18 +2,18 @@ package code;
 
 import java.util.ArrayList;
 import java.util.List;
-import code.TownState;
+import code.TownSearchNode;
 
 
 public class Node {
-    TownState state;
+    TownSearchNode state;
     Node parentNode;
     Actions action;
     int depth;
     double pathCost;
 
 
-    public Node(TownState state, Node parentNode, Actions action, int depth, double pathCost) {
+    public Node(TownSearchNode state, Node parentNode, Actions action, int depth, double pathCost) {
         this.state = state;
         this.parentNode = parentNode;
         this.action = action;

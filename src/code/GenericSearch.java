@@ -10,6 +10,8 @@ public abstract class GenericSearch {
 
     public String solve(String initialStateStr, String strategy, Boolean visualize){
 
+        
+
         Queue<Node> nodes = new LinkedList<>();
         
         nodes.add(new Node());
@@ -27,7 +29,7 @@ public abstract class GenericSearch {
         return "NOSOLUTION"; // Return null if no solution is found
     }
 
-    public Queue<Node> enqueue(Queue<Node> nodes , Node node){
+    public static Queue<Node> enqueue(Queue<Node> nodes , Node node){
         // TO DO
         return new LinkedList<>();
     }

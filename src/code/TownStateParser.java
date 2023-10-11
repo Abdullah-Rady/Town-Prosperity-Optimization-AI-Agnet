@@ -1,9 +1,9 @@
 package code;
-import code.TownState;
+import code.TownConstants;
 
 public class TownStateParser {
 
-    public static TownState parseInitialState(String initialStateStr) {
+    public static TownConstants parseInitialState(String initialStateStr) {
         String[] parts = initialStateStr.split(";");
         
         if (parts.length != 9) {
@@ -52,7 +52,7 @@ public class TownStateParser {
             
             // Parse other properties in a similar manner
             
-            return new TownState(
+            return new TownConstants(
                 initialProsperity, initialFood, initialMaterials, initialEnergy,
                 unitPriceFood, unitPriceMaterials, unitPriceEnergy,
                 amountRequestFood, delayRequestFood,
