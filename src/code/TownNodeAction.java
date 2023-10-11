@@ -1,8 +1,6 @@
 package code;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
+
 import code.Actions;
 import code.TownConstants;
 
