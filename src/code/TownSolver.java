@@ -162,21 +162,4 @@ public class TownSolver {
         return steps;
     }
 
-    public static void main(String[] args) {
-
-        String initialStateStr = "40;30,20,25;2,3,4;5,2;3,1;4,2;10,2,3,4,5;12,3,5,6,7;";
-        String strategy = "BF";
-        boolean visualize = true;
-
-        List<String> sequence = solve(initialStateStr, strategy, visualize);
-
-        if (sequence != null) {
-            System.out.println("Sequence of steps to achieve prosperity:");
-            for (String step : sequence) {
-                System.out.println(step);
-            }
-        } else {
-            System.out.println("No sequence found to achieve prosperity.");
-        }
-    }
 }

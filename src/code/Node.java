@@ -8,12 +8,12 @@ import code.TownState;
 public class Node {
     TownState state;
     Node parentNode;
-    Action action;
+    Actions action;
     int depth;
     double pathCost;
 
 
-    public Node(TownState state, Node parentNode, Action action, int depth, double pathCost) {
+    public Node(TownState state, Node parentNode, Actions action, int depth, double pathCost) {
         this.state = state;
         this.parentNode = parentNode;
         this.action = action;
@@ -26,8 +26,7 @@ public class Node {
     }
 
     public boolean isGoal(){
-        // TO DO
-        return false;
+        return state.isProsperous();
     }
 
     public String steps() {

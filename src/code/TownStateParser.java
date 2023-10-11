@@ -3,7 +3,7 @@ import code.TownState;
 
 public class TownStateParser {
 
-    public TownState parseInitialState(String initialStateStr) {
+    public static TownState parseInitialState(String initialStateStr) {
         String[] parts = initialStateStr.split(";");
         
         if (parts.length != 9) {
