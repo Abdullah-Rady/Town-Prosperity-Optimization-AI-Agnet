@@ -1,11 +1,11 @@
 package code;
 
 public class TownConstants {
-    
+
     final int MAX_RESOURCE_CAPACITY = 50;
-    
+
     int budget = 100000;
-    
+
     int prosperity;
     int food;
     int materials;
@@ -88,11 +88,8 @@ public class TownConstants {
 
     public TownSearchNode getInitialState() {
         return new TownSearchNode(
-            prosperity, food , materials, energy, 0, -1, -1, -1
-            );
-            
-    }
-    
+                prosperity, food, materials, energy, 0, -1, -1, -1);
 
+    }
 
 }

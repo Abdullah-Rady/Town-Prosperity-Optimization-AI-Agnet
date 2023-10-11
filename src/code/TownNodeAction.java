@@ -1,6 +1,5 @@
 package code;
 
-
 import code.Actions;
 import code.TownConstants;
 
@@ -12,24 +11,31 @@ public class TownNodeAction {
         this.constants = constants;
     }
 
-
     public boolean canConsumeResources(TownSearchNode state) {
         return (state.food > 0 && state.materials > 0 && state.energy > 0);
     }
 
     public boolean canRequestFood(TownSearchNode state) {
-        return canConsumeResources(state) && (state.food + constants.amountRequestFood <= constants.MAX_RESOURCE_CAPACITY
-                && constants.unitPriceFood * constants.amountRequestFood <= constants.budget  - state.moneySpent) && state.foodDelay == -1;
+        return canConsumeResources(state)
+                && (state.food + constants.amountRequestFood - 1 <= constants.MAX_RESOURCE_CAPACITY
+                        && constants.unitPriceFood * constants.amountRequestFood <= constants.budget - state.moneySpent)
+                && state.foodDelay == -1;
     }
 
     public boolean canRequestMaterials(TownSearchNode state) {
-        return canConsumeResources(state) && (state.materials + constants.amountRequestMaterial <= constants.MAX_RESOURCE_CAPACITY
-                && constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget  - state.moneySpent) && state.materialsDelay == -1;
+        return canConsumeResources(state)
+                && (state.materials + constants.amountRequestMaterial - 1 <= constants.MAX_RESOURCE_CAPACITY
+                        && constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget
+                                - state.moneySpent)
+                && state.materialsDelay == -1;
     }
 
     public boolean canRequestEnergy(TownSearchNode state) {
         return canConsumeResources(state)
-                && (state.energy < constants.amountRequestEnergy && constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget - state.moneySpent) && state.energyDelay == -1;
+                && (state.energy + constants.amountRequestEnergy - 1 < constants.amountRequestEnergy
+                        && constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
+                                - state.moneySpent)
+                && state.energyDelay == -1;
     }
 
     public boolean canWait(TownSearchNode state) {
@@ -37,13 +43,17 @@ public class TownNodeAction {
     }
 
     public boolean canBuild1(TownSearchNode state) {
-        return (state.food >= constants.foodUseBUILD1 && state.materials >= constants.materialsUseBUILD1 && state.energy >= constants.energyUseBUILD1
-                && constants.budget  - state.moneySpent >= constants.priceBUILD1 && state.prosperity + constants.prosperityBUILD1 < 100);
+        return (state.food >= constants.foodUseBUILD1 && state.materials >= constants.materialsUseBUILD1
+                && state.energy >= constants.energyUseBUILD1
+                && constants.budget - state.moneySpent >= constants.priceBUILD1
+                && state.prosperity + constants.prosperityBUILD1 < 100);
     }
 
     public boolean canBuild2(TownSearchNode state) {
-        return (state.food >= constants.foodUseBUILD2 && state.materials >= constants.materialsUseBUILD2 && state.energy >= constants.energyUseBUILD2
-                && constants.budget - state.moneySpent >= constants.priceBUILD2 && state.prosperity + constants.prosperityBUILD2 < 100);
+        return (state.food >= constants.foodUseBUILD2 && state.materials >= constants.materialsUseBUILD2
+                && state.energy >= constants.energyUseBUILD2
+                && constants.budget - state.moneySpent >= constants.priceBUILD2
+                && state.prosperity + constants.prosperityBUILD2 < 100);
     }
 
     public boolean checkAction(int n, TownSearchNode state) {
@@ -99,21 +109,21 @@ public class TownNodeAction {
     }
 
     public TownSearchNode build1(TownSearchNode state) {
-            
-        state.prosperity += constants.prosperityBUILD1; 
+
+        state.prosperity += constants.prosperityBUILD1;
         state.food -= constants.foodUseBUILD1;
-        state.materials -= constants.materialsUseBUILD1; 
+        state.materials -= constants.materialsUseBUILD1;
         state.energy -= constants.energyUseBUILD1;
         state.moneySpent += constants.priceBUILD1;
-    
+
         return state;
     }
 
-    public  TownSearchNode build2(TownSearchNode state) {
+    public TownSearchNode build2(TownSearchNode state) {
 
-        state.prosperity += constants.prosperityBUILD2; 
+        state.prosperity += constants.prosperityBUILD2;
         state.food -= constants.foodUseBUILD2;
-        state.materials -= constants.materialsUseBUILD2; 
+        state.materials -= constants.materialsUseBUILD2;
         state.energy -= constants.energyUseBUILD2;
         state.moneySpent += constants.priceBUILD2;
 
@@ -140,11 +150,11 @@ public class TownNodeAction {
         }
     }
 
-    public TownSearchNode update(TownSearchNode state){
-        TownSearchNode newState = new TownSearchNode(state.prosperity, state.food, state.materials, state.energy, 
-        state.energy, 
-        state.foodDelay, state.materialsDelay, state.energyDelay);
-        if (newState.foodDelay > 0) 
+    public TownSearchNode update(TownSearchNode state) {
+        TownSearchNode newState = new TownSearchNode(state.prosperity, state.food, state.materials, state.energy,
+                state.energy,
+                state.foodDelay, state.materialsDelay, state.energyDelay);
+        if (newState.foodDelay > 0)
             newState.foodDelay--;
 
         if (newState.materialsDelay > 0)
@@ -153,19 +163,19 @@ public class TownNodeAction {
         if (newState.energyDelay > 0)
             newState.energyDelay--;
 
-        if (newState.foodDelay == 0){
+        if (newState.foodDelay == 0) {
             newState.foodDelay = -1;
             newState.food += constants.amountRequestFood;
         }
 
-        if (newState.materialsDelay == 0){
+        if (newState.materialsDelay == 0) {
             newState.materialsDelay = -1;
             newState.materials += constants.amountRequestMaterial;
         }
 
-        if (newState.energyDelay == 0){
+        if (newState.energyDelay == 0) {
             newState.energyDelay = -1;
-            newState.energy +=  constants.amountRequestEnergy;
+            newState.energy += constants.amountRequestEnergy;
         }
         return newState;
     }

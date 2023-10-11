@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import code.TownSearchNode;
 
-
 public class Node {
     TownSearchNode state;
     Node parentNode;
     Actions action;
     int depth;
     double pathCost;
-
 
     public Node(TownSearchNode state, Node parentNode, Actions action, int depth, double pathCost) {
         this.state = state;
@@ -21,11 +19,11 @@ public class Node {
         this.pathCost = pathCost;
     }
 
-    public Node (){
+    public Node() {
 
     }
 
-    public boolean isGoal(){
+    public boolean isGoal() {
         return state.isProsperous();
     }
 

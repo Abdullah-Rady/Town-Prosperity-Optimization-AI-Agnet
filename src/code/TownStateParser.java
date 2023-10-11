@@ -1,15 +1,16 @@
 package code;
+
 import code.TownConstants;
 
 public class TownStateParser {
 
     public static TownConstants parseInitialState(String initialStateStr) {
         String[] parts = initialStateStr.split(";");
-        
+
         if (parts.length != 9) {
             throw new IllegalArgumentException("Invalid initial state string format.");
         }
-        
+
         try {
             int initialProsperity = Integer.parseInt(parts[0].trim());
 
@@ -49,18 +50,16 @@ public class TownStateParser {
             int energyUseBUILD2 = Integer.parseInt(build2Values[3].trim());
             int prosperityBUILD2 = Integer.parseInt(build2Values[4].trim());
 
-            
             // Parse other properties in a similar manner
-            
+
             return new TownConstants(
-                initialProsperity, initialFood, initialMaterials, initialEnergy,
-                unitPriceFood, unitPriceMaterials, unitPriceEnergy,
-                amountRequestFood, delayRequestFood,
-                amountRequestMaterials, delayRequestMaterials,
-                amountRequestEnergy, delayRequestEnergy,
-                priceBUILD1, foodUseBUILD1, materialsUseBUILD1, energyUseBUILD1, prosperityBUILD1,
-                priceBUILD2, foodUseBUILD2, materialsUseBUILD2, energyUseBUILD2, prosperityBUILD2
-            );
+                    initialProsperity, initialFood, initialMaterials, initialEnergy,
+                    unitPriceFood, unitPriceMaterials, unitPriceEnergy,
+                    amountRequestFood, delayRequestFood,
+                    amountRequestMaterials, delayRequestMaterials,
+                    amountRequestEnergy, delayRequestEnergy,
+                    priceBUILD1, foodUseBUILD1, materialsUseBUILD1, energyUseBUILD1, prosperityBUILD1,
+                    priceBUILD2, foodUseBUILD2, materialsUseBUILD2, energyUseBUILD2, prosperityBUILD2);
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Invalid number format in initial state string.", e);
         }
