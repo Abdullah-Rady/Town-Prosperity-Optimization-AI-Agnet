@@ -8,7 +8,6 @@ import code.Actions;
 
 public class TownState {
 
-
     final int MAX_RESOURCE_CAPACITY = 50;
     int budget = 100000;
     int prosperity;
@@ -36,30 +35,29 @@ public class TownState {
     int prosperityBUILD2;
 
     public TownState(
-        int prosperity,
-        int food,
-        int materials,
-        int energy,
-        int unitPriceFood,
-        int unitPriceMaterials,
-        int unitPriceEnergy,
-        int amountRequestFood,
-        int delayRequestFood,
-        int amountRequestMaterial,
-        int delayRequestMaterial,
-        int amountRequestEnergy,
-        int delayRequestEnergy,
-        int priceBUILD1,
-        int foodUseBUILD1,
-        int materialsUseBUILD1,
-        int energyUseBUILD1,
-        int prosperityBUILD1,
-        int priceBUILD2,
-        int foodUseBUILD2,
-        int materialsUseBUILD2,
-        int energyUseBUILD2,
-        int prosperityBUILD2
-    ) {
+            int prosperity,
+            int food,
+            int materials,
+            int energy,
+            int unitPriceFood,
+            int unitPriceMaterials,
+            int unitPriceEnergy,
+            int amountRequestFood,
+            int delayRequestFood,
+            int amountRequestMaterial,
+            int delayRequestMaterial,
+            int amountRequestEnergy,
+            int delayRequestEnergy,
+            int priceBUILD1,
+            int foodUseBUILD1,
+            int materialsUseBUILD1,
+            int energyUseBUILD1,
+            int prosperityBUILD1,
+            int priceBUILD2,
+            int foodUseBUILD2,
+            int materialsUseBUILD2,
+            int energyUseBUILD2,
+            int prosperityBUILD2) {
         this.prosperity = prosperity;
         this.food = food;
         this.materials = materials;
@@ -104,8 +102,8 @@ public class TownState {
         return (food > 0 && materials > 0 && energy > 0);
     }
 
-
-    // ? is requesting food / materials / energy allowed if the there is a pending delivery
+    // ? is requesting food / materials / energy allowed if the there is a pending
+    // delivery
 
     boolean canRequestFood() {
         return canConsumeResources() && (food + amountRequestFood <= MAX_RESOURCE_CAPACITY
@@ -127,8 +125,9 @@ public class TownState {
         return canConsumeResources();
     }
 
-    // ? is taking an action that increases the prosperity of the town over 100 allowed
-    
+    // ? is taking an action that increases the prosperity of the town over 100
+    // allowed
+
     boolean canBuild1() {
         return (food >= foodUseBUILD1 && materials >= materialsUseBUILD1 && energy >= energyUseBUILD1
                 && budget >= priceBUILD1 && prosperity + prosperityBUILD1 < 100);
@@ -139,7 +138,7 @@ public class TownState {
                 && budget >= priceBUILD2 && prosperity + prosperityBUILD2 < 100);
     }
 
-    boolean checkAction(int n){
+    boolean checkAction(int n) {
         switch (n) {
             case 1:
                 return canRequestFood();
@@ -158,37 +157,36 @@ public class TownState {
         }
     }
 
-
     // TO DO: Implement actions to update the town's state
     // for actions we need to delay request material, food and energy
 
-    public void consumeResources(){
+    public void consumeResources() {
         food -= 1;
         energy -= 1;
         materials -= 1;
     }
 
-    public void requestFood(){
+    public void requestFood() {
         consumeResources();
         budget -= unitPriceFood * amountRequestFood;
     }
 
-    public void requestMaterials(){
+    public void requestMaterials() {
         consumeResources();
         budget -= unitPriceMaterials * amountRequestMaterial;
     }
 
-    public void requestEnergy(){
+    public void requestEnergy() {
         consumeResources();
         budget -= unitPriceEnergy * amountRequestEnergy;
     }
 
-    public void waitAction(){
+    public void waitAction() {
         consumeResources();
         return;
     }
-    
-    public void build1(){
+
+    public void build1() {
         food -= foodUseBUILD1;
         energy -= energyUseBUILD1;
         materials -= materialsUseBUILD1;
@@ -196,7 +194,7 @@ public class TownState {
         prosperity += prosperityBUILD1;
     }
 
-    public void build2(){
+    public void build2() {
         food -= foodUseBUILD2;
         energy -= energyUseBUILD2;
         materials -= materialsUseBUILD2;
@@ -204,7 +202,8 @@ public class TownState {
         prosperity += prosperityBUILD2;
     }
 
-    public void preformAction(int n){
+    
+    public void preformAction(int n) {
         switch (n) {
             case 1:
                 pendingActions.add(new PendingAction(Actions.RequestFood, delayRequestFood));
@@ -230,36 +229,41 @@ public class TownState {
         }
     }
 
-
-    // TO DO: Implement an update function that will run in every step to check if the pending deliveries 
+    // TO DO: Implement an update function that will run in every step to check if
+    // the pending deliveries
     // arrived or not and update the town's state accordingly
+
+    // ! Since this is a private object, when cloning it to save it
+    // ! in the search tree, this instance of the object will be shared across all tree nodes.
+    // ! Therefore, we need to override .clone and code the cloning logic.
     private Deque<PendingAction> pendingActions = new ArrayDeque<>();
 
-    void update(){
-        
+    // Update the state by decrementing counters and removing actions from the front
+    // of the Deque.
+    void update() {
         Iterator<PendingAction> iterator = pendingActions.iterator();
 
         while (iterator.hasNext()) {
-
             PendingAction pendingAction = iterator.next();
             pendingAction.counter--;
 
             if (pendingAction.counter == 0) {
-                
-                if(pendingAction.action.getValue() == 1)
+                // Check the action type to update the corresponding resource
+                if (pendingAction.action.getValue() == 1)
                     food += amountRequestFood;
-                else if(pendingAction.action.getValue() == 2)
+                else if (pendingAction.action.getValue() == 2)
                     materials += amountRequestMaterial;
-                else if(pendingAction.action.getValue() == 3)
+                else if (pendingAction.action.getValue() == 3)
                     energy += amountRequestEnergy;
 
                 iterator.remove();
             } else {
-                break; 
+                break;
             }
         }
     }
 
+    // A private class to represent a pending action with its counter.
     private class PendingAction {
         Actions action;
         int counter;
@@ -269,6 +273,5 @@ public class TownState {
             this.counter = counter;
         }
     }
-
 
 }
