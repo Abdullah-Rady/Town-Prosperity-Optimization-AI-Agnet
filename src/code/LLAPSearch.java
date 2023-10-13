@@ -21,7 +21,10 @@ public class LLAPSearch extends GenericSearch {
      * @return
      */
 
-    public String UC(Node initial, TownNodeAction transitioner) {
+     static TownNodeAction transitioner;
+     static boolean visualize;
+
+    public String UC(Node initial) {
 
         PriorityQueue<Node> queue = new PriorityQueue<>(new UCComparator());
         Set<TownSearchNode> visited = new HashSet<>();
@@ -33,6 +36,9 @@ public class LLAPSearch extends GenericSearch {
 
             Node currentNode = queue.poll();
             TownSearchNode currentState = currentNode.state;
+
+            if (visualize)
+                System.out.println(currentState);
 
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
@@ -55,10 +61,10 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String ID(Node initial, TownNodeAction transitioner) {
+    public String ID(Node initial) {
         int depth = 0;
         while (true) {
-            String result = DLS(initial, transitioner, depth);
+            String result = DLS(initial, depth);
             if (!result.equals("NOSOLUTION")) {
                 return result;
             }
@@ -66,7 +72,7 @@ public class LLAPSearch extends GenericSearch {
         }
     }
 
-    public String DLS(Node initial, TownNodeAction transitioner, int depth) {
+    public String DLS(Node initial, int depth) {
 
         Stack<Node> stack = new Stack<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -84,6 +90,9 @@ public class LLAPSearch extends GenericSearch {
 
             TownSearchNode currentState = currentNode.state;
 
+            if (visualize)
+                System.out.println(currentState);
+            
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
@@ -108,7 +117,7 @@ public class LLAPSearch extends GenericSearch {
 
     }
 
-    public String BFS(Node initial, TownNodeAction transitioner) {
+    public String BFS(Node initial) {
 
         Queue<Node> stack = new LinkedList<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -121,8 +130,9 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.poll();
             TownSearchNode currentState = currentNode.state;
 
-            System.out.println(currentState);
-            
+            if (visualize)
+                System.out.println(currentState);
+
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
@@ -145,7 +155,7 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String DFS(Node initial, TownNodeAction transitioner) {
+    public String DFS(Node initial) {
 
         Stack<Node> stack = new Stack<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -157,6 +167,9 @@ public class LLAPSearch extends GenericSearch {
 
             Node currentNode = stack.pop();
             TownSearchNode currentState = currentNode.state;
+
+            if (visualize)
+                System.out.println(currentState);
             
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
@@ -203,16 +216,16 @@ public class LLAPSearch extends GenericSearch {
         return String.join(",", plan) + ";" + monetaryCost + ";" + nodesExpanded;
     }
 
-    public String Solver(String strategy, Node initialNode, TownNodeAction transitioner){
+    public String Solver(String strategy, Node initialNode){
         switch (strategy) {
             case "BF":
-                return BFS(initialNode, transitioner);
+                return BFS(initialNode);
             case "DF":
-                return DFS(initialNode, transitioner);
+                return DFS(initialNode);
             case "ID":
-                return ID(initialNode, transitioner);
+                return ID(initialNode);
             case "UC":
-                return UC(initialNode, transitioner);
+                return UC(initialNode);
             // case "AS1":
             //     return AStar(initialNode, transitioner);
             // case "AS2":
@@ -225,14 +238,17 @@ public class LLAPSearch extends GenericSearch {
                 throw new IllegalArgumentException("Invalid strategy: " + strategy);
         }
     }
+   
     @Override
-    public String solve(String initialStateStr, String strategy, Boolean visualize) {
+    public String solve(String initialStateStr, String strategy, Boolean visualizein) {
         TownConstants constants = TownStateParser.parseInitialState(initialStateStr);
         TownSearchNode initialState = constants.getInitialState();
-        TownNodeAction transitioner = new TownNodeAction(constants);
+        transitioner = new TownNodeAction(constants);
         Node initialNode = new Node(initialState, null, null, 0, 0);
+        visualize = visualizein;
+        System.out.println(visualize);
 
-        return Solver(strategy, initialNode, transitioner);
+        return Solver(strategy, initialNode);
     }
 }
 
