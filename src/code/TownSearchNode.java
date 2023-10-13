@@ -52,16 +52,15 @@ public class TownSearchNode {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = 1;
-        result = prime * result + prosperity;
-        result = prime * result + food;
-        result = prime * result + materials;
-        result = prime * result + energy;
-        result = prime * result + moneySpent;
-        result = prime * result + foodDelay;
-        result = prime * result + materialsDelay;
-        result = prime * result + energyDelay;
+        result = 31 * result + prosperity;
+        result = 37 * result + food;
+        result = 41 * result + materials;
+        result = 43 * result + energy;
+        result = 47 * result + moneySpent;
+        result = 53 * result + foodDelay;
+        result = 59 * result + materialsDelay;
+        result = 61 * result + energyDelay;
         return result;
     }
 }
