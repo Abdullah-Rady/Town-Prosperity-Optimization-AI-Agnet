@@ -7,7 +7,11 @@ public class TownStateParser {
     public static TownConstants parseInitialState(String initialStateStr) {
         String[] parts = initialStateStr.split(";");
 
-        if (parts.length != 9) {
+        System.out.println(parts.length);
+
+        
+
+        if (parts.length != 8) {
             throw new IllegalArgumentException("Invalid initial state string format.");
         }
 

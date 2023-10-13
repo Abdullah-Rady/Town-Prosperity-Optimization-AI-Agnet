@@ -63,4 +63,13 @@ public class TownSearchNode {
         result = 61 * result + energyDelay;
         return result;
     }
+    
+    @Override
+    public String toString() {
+        return "Prosperity: " + prosperity + ", Food: " + food +
+               ", Materials: " + materials + ", Energy: " + energy +
+               ", Money Spent: " + moneySpent +
+               ", Food Delay: " + foodDelay + ", Materials Delay: " + materialsDelay +
+               ", Energy Delay: " + energyDelay;
+    }
 }

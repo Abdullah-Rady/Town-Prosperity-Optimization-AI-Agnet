@@ -39,6 +39,7 @@ public class LLAPSearch extends GenericSearch {
             }
 
             visited.add(currentState);
+            nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
@@ -88,6 +89,7 @@ public class LLAPSearch extends GenericSearch {
             }
 
             visited.add(currentState);
+            nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
@@ -119,11 +121,14 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.poll();
             TownSearchNode currentState = currentNode.state;
 
+            System.out.println(currentState);
+            
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
 
             visited.add(currentState);
+            nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
@@ -152,12 +157,13 @@ public class LLAPSearch extends GenericSearch {
 
             Node currentNode = stack.pop();
             TownSearchNode currentState = currentNode.state;
-
+            
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
-
+            
             visited.add(currentState);
+            nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
@@ -166,7 +172,6 @@ public class LLAPSearch extends GenericSearch {
                         && !visited.contains(transitioner.preformAction(actionValue, currentState))) {
                     stack.push(new Node(transitioner.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
-                    nodesExpanded++;
                 }
 
             }
@@ -200,9 +205,9 @@ public class LLAPSearch extends GenericSearch {
 
     public String Solver(String strategy, Node initialNode, TownNodeAction transitioner){
         switch (strategy) {
-            case "BFS":
+            case "BF":
                 return BFS(initialNode, transitioner);
-            case "DFS":
+            case "DF":
                 return DFS(initialNode, transitioner);
             case "ID":
                 return ID(initialNode, transitioner);

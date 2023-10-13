@@ -46,14 +46,14 @@ public class TownNodeAction {
         return (state.food >= constants.foodUseBUILD1 && state.materials >= constants.materialsUseBUILD1
                 && state.energy >= constants.energyUseBUILD1
                 && constants.budget - state.moneySpent >= constants.priceBUILD1
-                && state.prosperity + constants.prosperityBUILD1 < 100);
+                && state.prosperity  < 100);
     }
 
     public boolean canBuild2(TownSearchNode state) {
         return (state.food >= constants.foodUseBUILD2 && state.materials >= constants.materialsUseBUILD2
                 && state.energy >= constants.energyUseBUILD2
                 && constants.budget - state.moneySpent >= constants.priceBUILD2
-                && state.prosperity + constants.prosperityBUILD2 < 100);
+                && state.prosperity < 100);
     }
 
     public boolean checkAction(int n, TownSearchNode state) {
