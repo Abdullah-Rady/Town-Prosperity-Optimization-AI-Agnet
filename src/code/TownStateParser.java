@@ -5,11 +5,7 @@ import code.TownConstants;
 public class TownStateParser {
 
     public static TownConstants parseInitialState(String initialStateStr) {
-        String[] parts = initialStateStr.split(";");
-
-        System.out.println(parts.length);
-
-        
+        String[] parts = initialStateStr.split(";");        
 
         if (parts.length != 8) {
             throw new IllegalArgumentException("Invalid initial state string format.");

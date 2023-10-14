@@ -21,7 +21,7 @@ public class LLAPSearch extends GenericSearch {
      * @return
      */
 
-     static TownNodeAction transitioner;
+     static TownAgent agent;
      static boolean visualize;
 
     public String UC(Node initial) {
@@ -50,9 +50,9 @@ public class LLAPSearch extends GenericSearch {
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-                if (transitioner.checkAction(actionValue, currentState)
-                        && !visited.contains(transitioner.preformAction(actionValue, currentState))) {
-                    queue.add(new Node(transitioner.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -103,9 +103,9 @@ public class LLAPSearch extends GenericSearch {
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-                if (transitioner.checkAction(actionValue, currentState)
-                        && !visited.contains(transitioner.preformAction(actionValue, currentState))) {
-                    stack.push(new Node(transitioner.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                    stack.push(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -143,9 +143,9 @@ public class LLAPSearch extends GenericSearch {
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-                if (transitioner.checkAction(actionValue, currentState)
-                        && !visited.contains(transitioner.preformAction(actionValue, currentState))) {
-                    stack.add(new Node(transitioner.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                    stack.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -181,9 +181,9 @@ public class LLAPSearch extends GenericSearch {
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-                if (transitioner.checkAction(actionValue, currentState)
-                        && !visited.contains(transitioner.preformAction(actionValue, currentState))) {
-                    stack.push(new Node(transitioner.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                    stack.push(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -243,10 +243,9 @@ public class LLAPSearch extends GenericSearch {
     public String solve(String initialStateStr, String strategy, Boolean visualizein) {
         TownConstants constants = TownStateParser.parseInitialState(initialStateStr);
         TownSearchNode initialState = constants.getInitialState();
-        transitioner = new TownNodeAction(constants);
+        agent = new TownAgent(constants);
         Node initialNode = new Node(initialState, null, null, 0, 0);
         visualize = visualizein;
-        System.out.println(visualize);
 
         return Solver(strategy, initialNode);
     }

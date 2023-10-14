@@ -3,11 +3,11 @@ package code;
 import code.Actions;
 import code.TownConstants;
 
-public class TownNodeAction {
+public class TownAgent {
 
     TownConstants constants;
 
-    public TownNodeAction(TownConstants constants) {
+    public TownAgent(TownConstants constants) {
         this.constants = constants;
     }
 
