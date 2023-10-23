@@ -215,7 +215,94 @@ public class LLAPSearch extends GenericSearch {
 
         return String.join(",", plan) + ";" + monetaryCost + ";" + nodesExpanded;
     }
+    public String AStar(Node initial , Transitioner transitioner){
+        Stack<Node> stack = new Stack<>();
+        Set<TownSearchNode> visited = new HashSet<>();
+        int nodesExpanded = 0;
 
+        stack.push(initial);
+
+        while (!stack.isEmpty()) {
+
+            Node currentNode = stack.pop();
+            TownSearchNode currentState = currentNode.state;
+
+            if (visualize)
+                System.out.println(currentState);
+
+            if (currentNode.isGoal()) {
+                return tracePath(currentNode, nodesExpanded);
+            }
+
+            visited.add(currentState);
+            nodesExpanded++;
+            Actions resAction = null;
+            int maxH = Integer.MIN_VALUE;
+            for (Actions action : Actions.values()) {
+
+                int actionValue = action.getValue();
+
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                    int hofn = transitioner.calculateHeuristic(actionValue , agent.constants);
+                    if(hofn > maxH){
+                        resAction = action;
+                        maxH = hofn;
+                    }
+                }
+
+            }
+            stack.push(new Node(agent.preformAction(resAction.getValue(), currentState), currentNode, resAction,
+                    currentNode.depth + 1, currentNode.pathCost + 1));
+
+        }
+
+        return "NOSOLUTION";
+    }
+    public String Greedy(Node initial , Transitioner transitioner){
+        Stack<Node> stack = new Stack<>();
+        Set<TownSearchNode> visited = new HashSet<>();
+        int nodesExpanded = 0;
+
+        stack.push(initial);
+
+        while (!stack.isEmpty()) {
+
+            Node currentNode = stack.pop();
+            TownSearchNode currentState = currentNode.state;
+
+            if (visualize)
+                System.out.println(currentState);
+
+            if (currentNode.isGoal()) {
+                return tracePath(currentNode, nodesExpanded);
+            }
+
+            visited.add(currentState);
+            nodesExpanded++;
+            Actions resAction = null;
+            int maxH = Integer.MIN_VALUE;
+            for (Actions action : Actions.values()) {
+
+                int actionValue = action.getValue();
+
+                if (agent.checkAction(actionValue, currentState)
+                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
+                            int hofn = transitioner.calculateHeuristic(actionValue , agent.constants);
+                            if(hofn > maxH){
+                                resAction = action;
+                                maxH = hofn;
+                            }
+                }
+
+            }
+            stack.push(new Node(agent.preformAction(resAction.getValue(), currentState), currentNode, resAction,
+                    currentNode.depth + 1, currentNode.pathCost + 1));
+
+        }
+
+        return "NOSOLUTION";
+    }
     public String Solver(String strategy, Node initialNode){
         switch (strategy) {
             case "BF":
@@ -226,14 +313,14 @@ public class LLAPSearch extends GenericSearch {
                 return ID(initialNode);
             case "UC":
                 return UC(initialNode);
-            // case "AS1":
-            //     return AStar(initialNode, transitioner);
-            // case "AS2":
-            //     return AStar(initialNode, transitioner);
-            // case "G1":
-            //     return Greedy(initialNode, transitioner);
-            // case "G2":
-            //     return Greedy(initialNode, transitioner);
+             case "AS1":
+                 return AStar(initialNode, new Transitioner(true));
+             case "AS2":
+                 return AStar(initialNode, new Transitioner(false));
+             case "G1":
+                 return Greedy(initialNode, new Transitioner(true));
+             case "G2":
+                 return Greedy(initialNode, new Transitioner(false));
             default:
                 throw new IllegalArgumentException("Invalid strategy: " + strategy);
         }
