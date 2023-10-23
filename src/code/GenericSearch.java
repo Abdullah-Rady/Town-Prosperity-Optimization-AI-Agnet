@@ -23,10 +23,10 @@ public abstract class GenericSearch {
                 return node.steps();
             }
 
-            nodes = enqueue(nodes, node); // Assuming OPER is a function that generates the successors of a node
+            nodes = enqueue(nodes, node);
         }
 
-        return "NOSOLUTION"; // Return null if no solution is found
+        return "NOSOLUTION";
     }
 
     public static Queue<Node> enqueue(Queue<Node> nodes , Node node){
