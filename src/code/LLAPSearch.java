@@ -13,6 +13,8 @@ import java.util.Stack;
 
 import code.TownStateParser;
 
+import static code.LLAPSearch.townConstants;
+
 public class LLAPSearch extends GenericSearch {
     /**
      * @param initialStateStr
@@ -21,8 +23,9 @@ public class LLAPSearch extends GenericSearch {
      * @return
      */
 
-     static TownAgent agent;
-     static boolean visualize;
+    static TownAgent agent;
+    static TownConstants townConstants;
+    static boolean visualize;
 
     public String UC(Node initial) {
 
@@ -92,7 +95,7 @@ public class LLAPSearch extends GenericSearch {
 
             if (visualize)
                 System.out.println(currentState);
-            
+
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
@@ -170,11 +173,11 @@ public class LLAPSearch extends GenericSearch {
 
             if (visualize)
                 System.out.println(currentState);
-            
+
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
             }
-            
+
             visited.add(currentState);
             nodesExpanded++;
 
@@ -215,16 +218,17 @@ public class LLAPSearch extends GenericSearch {
 
         return String.join(",", plan) + ";" + monetaryCost + ";" + nodesExpanded;
     }
-    public String AStar(Node initial , Transitioner transitioner){
-        Stack<Node> stack = new Stack<>();
+
+    public String AStar(Node initial, boolean firstHeuristic) {
+        PriorityQueue<Node> queue = new PriorityQueue<>(new AstarComparator(firstHeuristic));
         Set<TownSearchNode> visited = new HashSet<>();
         int nodesExpanded = 0;
 
-        stack.push(initial);
+        queue.add(initial);
 
-        while (!stack.isEmpty()) {
+        while (!queue.isEmpty()) {
 
-            Node currentNode = stack.pop();
+            Node currentNode = queue.poll();
             TownSearchNode currentState = currentNode.state;
 
             if (visualize)
@@ -236,39 +240,31 @@ public class LLAPSearch extends GenericSearch {
 
             visited.add(currentState);
             nodesExpanded++;
-            Actions resAction = null;
-            int maxH = Integer.MIN_VALUE;
+
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-
                 if (agent.checkAction(actionValue, currentState)
                         && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    int hofn = transitioner.calculateHeuristic(actionValue , agent.constants);
-                    if(hofn > maxH){
-                        resAction = action;
-                        maxH = hofn;
-                    }
+                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                            currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
             }
-            stack.push(new Node(agent.preformAction(resAction.getValue(), currentState), currentNode, resAction,
-                    currentNode.depth + 1, currentNode.pathCost + 1));
-
         }
-
         return "NOSOLUTION";
     }
-    public String Greedy(Node initial , Transitioner transitioner){
-        Stack<Node> stack = new Stack<>();
+
+    public String Greedy(Node initial, boolean firstHeuristic) {
+        PriorityQueue<Node> queue = new PriorityQueue<>(new GreedyComparator(firstHeuristic));
         Set<TownSearchNode> visited = new HashSet<>();
         int nodesExpanded = 0;
 
-        stack.push(initial);
+        queue.add(initial);
 
-        while (!stack.isEmpty()) {
+        while (!queue.isEmpty()) {
 
-            Node currentNode = stack.pop();
+            Node currentNode = queue.poll();
             TownSearchNode currentState = currentNode.state;
 
             if (visualize)
@@ -280,30 +276,22 @@ public class LLAPSearch extends GenericSearch {
 
             visited.add(currentState);
             nodesExpanded++;
-            Actions resAction = null;
-            int maxH = Integer.MIN_VALUE;
+
             for (Actions action : Actions.values()) {
 
                 int actionValue = action.getValue();
-
                 if (agent.checkAction(actionValue, currentState)
                         && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                            int hofn = transitioner.calculateHeuristic(actionValue , agent.constants);
-                            if(hofn > maxH){
-                                resAction = action;
-                                maxH = hofn;
-                            }
+                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                            currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
             }
-            stack.push(new Node(agent.preformAction(resAction.getValue(), currentState), currentNode, resAction,
-                    currentNode.depth + 1, currentNode.pathCost + 1));
-
         }
-
         return "NOSOLUTION";
     }
-    public String Solver(String strategy, Node initialNode){
+
+    public String Solver(String strategy, Node initialNode) {
         switch (strategy) {
             case "BF":
                 return BFS(initialNode);
@@ -313,24 +301,24 @@ public class LLAPSearch extends GenericSearch {
                 return ID(initialNode);
             case "UC":
                 return UC(initialNode);
-             case "AS1":
-                 return AStar(initialNode, new Transitioner(true));
-             case "AS2":
-                 return AStar(initialNode, new Transitioner(false));
-             case "G1":
-                 return Greedy(initialNode, new Transitioner(true));
-             case "G2":
-                 return Greedy(initialNode, new Transitioner(false));
+            case "AS1":
+                return AStar(initialNode, true);
+            case "AS2":
+                return AStar(initialNode, false);
+            case "G1":
+                return Greedy(initialNode, true);
+            case "G2":
+                return Greedy(initialNode, false);
             default:
                 throw new IllegalArgumentException("Invalid strategy: " + strategy);
         }
     }
-   
+
     @Override
     public String solve(String initialStateStr, String strategy, Boolean visualizein) {
-        TownConstants constants = TownStateParser.parseInitialState(initialStateStr);
-        TownSearchNode initialState = constants.getInitialState();
-        agent = new TownAgent(constants);
+        townConstants = TownStateParser.parseInitialState(initialStateStr);
+        TownSearchNode initialState = townConstants.getInitialState();
+        agent = new TownAgent(townConstants);
         Node initialNode = new Node(initialState, null, null, 0, 0);
         visualize = visualizein;
 
@@ -347,5 +335,40 @@ class UCComparator implements Comparator<Node> {
             return 1;
         }
         return 0;
+    }
+}
+
+
+class AstarComparator implements Comparator<Node> {
+    boolean firstHeuristic;
+
+    public AstarComparator(boolean firstHeuristic) {
+        this.firstHeuristic = firstHeuristic;
+    }
+
+    @Override
+    public int compare(Node node1, Node node2) {
+
+        return new Transitioner(firstHeuristic).calculateHeuristic(node1.action.getValue(), townConstants)
+             - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants)
+             + (int) (node1.pathCost - node2.pathCost);
+    }
+}
+
+
+class GreedyComparator implements Comparator<Node> {
+    boolean firstHeuristic;
+
+    public GreedyComparator(boolean firstHeuristic) {
+        this.firstHeuristic = firstHeuristic;
+    }
+
+    @Override
+    public int compare(Node node1, Node node2) {
+        return new Transitioner(firstHeuristic).calculateHeuristic(node1.action.getValue(), townConstants)
+             - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants);
+
+
+
     }
 }
