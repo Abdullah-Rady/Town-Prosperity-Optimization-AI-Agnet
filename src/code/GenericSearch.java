@@ -8,30 +8,30 @@ public abstract class GenericSearch {
 
 
 
-    public String solve(String initialStateStr, String strategy, Boolean visualize){
+    // public static String solve(String initialStateStr, String strategy, Boolean visualize){
 
         
 
-        Queue<Node> nodes = new LinkedList<>();
+    //     Queue<Node> nodes = new LinkedList<>();
         
-        nodes.add(new Node());
+    //     nodes.add(new Node());
 
-        while (!nodes.isEmpty()) {
-            Node node = nodes.poll();
+    //     while (!nodes.isEmpty()) {
+    //         Node node = nodes.poll();
 
-            if (node.isGoal()) {
-                return node.steps();
-            }
+    //         if (node.isGoal()) {
+    //             return node.steps();
+    //         }
 
-            nodes = enqueue(nodes, node);
-        }
+    //         nodes = enqueue(nodes, node);
+    //     }
 
-        return "NOSOLUTION";
-    }
+    //     return "NOSOLUTION";
+    // }
 
-    public static Queue<Node> enqueue(Queue<Node> nodes , Node node){
-        // TO DO
-        return new LinkedList<>();
-    }
+    // public static Queue<Node> enqueue(Queue<Node> nodes , Node node){
+    //     // TO DO
+    //     return new LinkedList<>();
+    // }
 
 }

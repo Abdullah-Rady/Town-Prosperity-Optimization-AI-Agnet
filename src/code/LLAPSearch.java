@@ -27,7 +27,7 @@ public class LLAPSearch extends GenericSearch {
     static TownConstants townConstants;
     static boolean visualize;
 
-    public String UC(Node initial) {
+    public static String UC(Node initial) {
 
         PriorityQueue<Node> queue = new PriorityQueue<>(new UCComparator());
         Set<TownSearchNode> visited = new HashSet<>();
@@ -64,7 +64,7 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String ID(Node initial) {
+    public static String ID(Node initial) {
         int depth = 0;
         while (true) {
             String result = DLS(initial, depth);
@@ -75,7 +75,7 @@ public class LLAPSearch extends GenericSearch {
         }
     }
 
-    public String DLS(Node initial, int depth) {
+    public static String DLS(Node initial, int depth) {
 
         Stack<Node> stack = new Stack<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -120,7 +120,7 @@ public class LLAPSearch extends GenericSearch {
 
     }
 
-    public String BFS(Node initial) {
+    public static String BFS(Node initial) {
 
         Queue<Node> stack = new LinkedList<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -158,7 +158,7 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String DFS(Node initial) {
+    public static String DFS(Node initial) {
 
         Stack<Node> stack = new Stack<>();
         Set<TownSearchNode> visited = new HashSet<>();
@@ -198,7 +198,7 @@ public class LLAPSearch extends GenericSearch {
 
     }
 
-    public String tracePath(Node node, int nodesExpanded) {
+    public static String tracePath(Node node, int nodesExpanded) {
 
         List<String> plan = new ArrayList<>();
 
@@ -219,7 +219,7 @@ public class LLAPSearch extends GenericSearch {
         return String.join(",", plan) + ";" + monetaryCost + ";" + nodesExpanded;
     }
 
-    public String AStar(Node initial, boolean firstHeuristic) {
+    public static String AStar(Node initial, boolean firstHeuristic) {
         PriorityQueue<Node> queue = new PriorityQueue<>(new AstarComparator(firstHeuristic));
         Set<TownSearchNode> visited = new HashSet<>();
         int nodesExpanded = 0;
@@ -255,7 +255,7 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String Greedy(Node initial, boolean firstHeuristic) {
+    public static String Greedy(Node initial, boolean firstHeuristic) {
         PriorityQueue<Node> queue = new PriorityQueue<>(new GreedyComparator(firstHeuristic));
         Set<TownSearchNode> visited = new HashSet<>();
         int nodesExpanded = 0;
@@ -291,7 +291,7 @@ public class LLAPSearch extends GenericSearch {
         return "NOSOLUTION";
     }
 
-    public String Solver(String strategy, Node initialNode) {
+    public static String Solver(String strategy, Node initialNode) {
         switch (strategy) {
             case "BF":
                 return BFS(initialNode);
@@ -314,8 +314,8 @@ public class LLAPSearch extends GenericSearch {
         }
     }
 
-    @Override
-    public String solve(String initialStateStr, String strategy, Boolean visualizein) {
+    
+    public static String solve(String initialStateStr, String strategy, Boolean visualizein) {
         townConstants = TownStateParser.parseInitialState(initialStateStr);
         TownSearchNode initialState = townConstants.getInitialState();
         agent = new TownAgent(townConstants);

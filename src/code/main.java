@@ -20,8 +20,7 @@ public class main {
 
         String strategy = "BF";
         boolean visualize = true;
-        LLAPSearch search = new LLAPSearch();
-        System.out.println(search.solve(initialStateStr, strategy, false));
+        System.out.println(LLAPSearch.solve(initialStateStr, strategy, visualize));
 
 
     }
