@@ -202,7 +202,7 @@ public class LLAPSearch extends GenericSearch {
 
         List<String> plan = new ArrayList<>();
 
-        double monetaryCost = 0.0;
+        int monetaryCost = 0;
 
         Node currentNode = node;
 

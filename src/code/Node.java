@@ -9,9 +9,9 @@ public class Node {
     Node parentNode;
     Actions action;
     int depth;
-    double pathCost;
+    int pathCost;
 
-    public Node(TownSearchNode state, Node parentNode, Actions action, int depth, double pathCost) {
+    public Node(TownSearchNode state, Node parentNode, Actions action, int depth, int pathCost) {
         this.state = state;
         this.parentNode = parentNode;
         this.action = action;
