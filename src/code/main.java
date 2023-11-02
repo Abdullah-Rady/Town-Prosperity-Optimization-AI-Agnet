@@ -9,14 +9,14 @@ import code.Actions;
 
 public class main {
 
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
 
-        String initialStateStr = "50;" +
-                "22,22,22;" +
-                "50,60,70;" +
-                "30,2;19,1;15,1;" +
-                "300,5,7,3,20;" +
-                "500,8,6,3,40;";
+        String initialStateStr = "29;" +
+        "14,9,26;" +
+        "650,400,710;" +
+        "20,2;29,2;38,1;" +
+        "8255,8,7,9,36;" +
+        "30670,12,12,11,36;";
 
         String strategy = "BF";
         boolean visualize = true;
