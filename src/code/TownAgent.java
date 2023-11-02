@@ -56,9 +56,9 @@ public class TownAgent {
                 && state.prosperity < 100);
     }
 
-    public boolean checkAction(int n, TownSearchNode state) {
+    public boolean checkAction(int action, TownSearchNode state) {
         TownSearchNode newState = update(state);
-        switch (n) {
+        switch (action) {
             case 1:
                 return canRequestFood(newState);
             case 2:
@@ -110,6 +110,8 @@ public class TownAgent {
 
     public TownSearchNode build1(TownSearchNode state) {
 
+        // System.out.println(constants.priceBUILD1);
+    
         state.prosperity += constants.prosperityBUILD1;
         state.food -= constants.foodUseBUILD1;
         state.materials -= constants.materialsUseBUILD1;

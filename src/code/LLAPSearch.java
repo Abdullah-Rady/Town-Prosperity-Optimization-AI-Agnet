@@ -15,6 +15,20 @@ import code.TownStateParser;
 
 import static code.LLAPSearch.townConstants;
 
+// there is a problem when preforming/checking actions because objects are passed by refrence rather than value and 
+// in actions we alter the state so this could have an unexpected side effect
+// we can fix this by creating a new state in the preform action method and returing the new state
+
+// after preforming actions there is a difference of 1 between the actual value and the value that shouldve been returned 
+// ex. if food after build should be 5,6 is found instead
+
+// when running the case in main the code adds unreachable states this could be due to the check action method
+// when something is printed in a preform action it is printed twice for some reason
+
+// based on the issues above i think the problem is in the either the agent class or the solving strategies themselves
+
+// i checked all of the other code and it seems to be working fine apart from the issues above
+
 public class LLAPSearch extends GenericSearch {
     /**
      * @param initialStateStr
@@ -134,7 +148,7 @@ public class LLAPSearch extends GenericSearch {
             TownSearchNode currentState = currentNode.state;
 
             if (visualize)
-                System.out.println(currentState);
+                System.out.println(currentNode.depth + "\n" + currentState);
 
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
@@ -182,12 +196,14 @@ public class LLAPSearch extends GenericSearch {
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
-
                 int actionValue = action.getValue();
                 if (agent.checkAction(actionValue, currentState)
                         && !visited.contains(agent.preformAction(actionValue, currentState))) {
                     stack.push(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                            if (visualize) {
+                                System.out.println(action);
+                            }
                 }
 
             }
