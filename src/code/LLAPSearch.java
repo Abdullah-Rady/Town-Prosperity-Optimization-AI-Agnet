@@ -329,12 +329,7 @@ public class LLAPSearch extends GenericSearch {
 class UCComparator implements Comparator<Node> {
     @Override
     public int compare(Node node1, Node node2) {
-        if (node1.pathCost < node2.pathCost) {
-            return -1;
-        } else if (node1.pathCost > node2.pathCost) {
-            return 1;
-        }
-        return 0;
+        return node1.pathCost - node2.pathCost;
     }
 }
 
