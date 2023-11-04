@@ -1,37 +1,30 @@
 package code;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 public abstract class GenericSearch {
 
+    // public static String solve(String initialStateStr, String strategy, Boolean
+    // visualize){
 
+    // Queue<Node> nodes = new LinkedList<>();
 
-    // public static String solve(String initialStateStr, String strategy, Boolean visualize){
+    // nodes.add(new Node());
 
-        
+    // while (!nodes.isEmpty()) {
+    // Node node = nodes.poll();
 
-    //     Queue<Node> nodes = new LinkedList<>();
-        
-    //     nodes.add(new Node());
+    // if (node.isGoal()) {
+    // return node.steps();
+    // }
 
-    //     while (!nodes.isEmpty()) {
-    //         Node node = nodes.poll();
+    // nodes = enqueue(nodes, node);
+    // }
 
-    //         if (node.isGoal()) {
-    //             return node.steps();
-    //         }
-
-    //         nodes = enqueue(nodes, node);
-    //     }
-
-    //     return "NOSOLUTION";
+    // return "NOSOLUTION";
     // }
 
     // public static Queue<Node> enqueue(Queue<Node> nodes , Node node){
-    //     // TO DO
-    //     return new LinkedList<>();
+    // // TO DO
+    // return new LinkedList<>();
     // }
 
 }

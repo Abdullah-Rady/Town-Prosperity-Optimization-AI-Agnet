@@ -11,8 +11,6 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
-import code.TownStateParser;
-
 import static code.LLAPSearch.townConstants;
 
 // there is a problem when preforming/checking actions because objects are passed by refrence rather than value and 
@@ -349,7 +347,6 @@ class UCComparator implements Comparator<Node> {
     }
 }
 
-
 class AstarComparator implements Comparator<Node> {
     boolean firstHeuristic;
 
@@ -361,11 +358,10 @@ class AstarComparator implements Comparator<Node> {
     public int compare(Node node1, Node node2) {
 
         return new Transitioner(firstHeuristic).calculateHeuristic(node1.action.getValue(), townConstants)
-             - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants)
-             + (int) (node1.pathCost - node2.pathCost);
+                - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants)
+                + (int) (node1.pathCost - node2.pathCost);
     }
 }
-
 
 class GreedyComparator implements Comparator<Node> {
     boolean firstHeuristic;
@@ -377,9 +373,7 @@ class GreedyComparator implements Comparator<Node> {
     @Override
     public int compare(Node node1, Node node2) {
         return new Transitioner(firstHeuristic).calculateHeuristic(node1.action.getValue(), townConstants)
-             - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants);
-
-
+                - new Transitioner(firstHeuristic).calculateHeuristic(node2.action.getValue(), townConstants);
 
     }
 }

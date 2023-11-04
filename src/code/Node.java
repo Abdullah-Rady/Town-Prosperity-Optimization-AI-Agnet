@@ -1,9 +1,5 @@
 package code;
 
-import java.util.ArrayList;
-import java.util.List;
-import code.TownSearchNode;
-
 public class Node {
     TownSearchNode state;
     Node parentNode;

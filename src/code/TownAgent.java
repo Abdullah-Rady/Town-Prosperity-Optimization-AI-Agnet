@@ -1,8 +1,5 @@
 package code;
 
-import code.Actions;
-import code.TownConstants;
-
 public class TownAgent {
 
     TownConstants constants;
@@ -46,7 +43,7 @@ public class TownAgent {
         return (state.food >= constants.foodUseBUILD1 && state.materials >= constants.materialsUseBUILD1
                 && state.energy >= constants.energyUseBUILD1
                 && constants.budget - state.moneySpent >= constants.priceBUILD1
-                && state.prosperity  < 100);
+                && state.prosperity < 100);
     }
 
     public boolean canBuild2(TownSearchNode state) {
