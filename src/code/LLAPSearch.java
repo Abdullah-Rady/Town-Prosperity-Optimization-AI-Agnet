@@ -320,9 +320,9 @@ public class LLAPSearch extends GenericSearch {
                 return AStar(initialNode, true);
             case "AS2":
                 return AStar(initialNode, false);
-            case "G1":
+            case "GR1":
                 return Greedy(initialNode, true);
-            case "G2":
+            case "GR2":
                 return Greedy(initialNode, false);
             default:
                 throw new IllegalArgumentException("Invalid strategy: " + strategy);
