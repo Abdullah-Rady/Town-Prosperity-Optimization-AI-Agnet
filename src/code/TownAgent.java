@@ -1,6 +1,5 @@
 package code;
 
-
 public class TownAgent {
 
     TownConstants constants;
@@ -15,24 +14,21 @@ public class TownAgent {
 
     public boolean canRequestFood(TownSearchNode state) {
         return canConsumeResources(state)
-                && (state.food + constants.amountRequestFood - 1 <= constants.MAX_RESOURCE_CAPACITY
-                        && constants.unitPriceFood * constants.amountRequestFood <= constants.budget - state.moneySpent)
+                && (constants.unitPriceFood * constants.amountRequestFood <= constants.budget - state.moneySpent)
                 && state.foodDelay == -1;
     }
 
     public boolean canRequestMaterials(TownSearchNode state) {
         return canConsumeResources(state)
-                && (state.materials + constants.amountRequestMaterial - 1 <= constants.MAX_RESOURCE_CAPACITY
-                        && constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget
-                                - state.moneySpent)
+                && (constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget
+                        - state.moneySpent)
                 && state.materialsDelay == -1;
     }
 
     public boolean canRequestEnergy(TownSearchNode state) {
         return canConsumeResources(state)
-                && (state.energy + constants.amountRequestEnergy - 1 <= constants.MAX_RESOURCE_CAPACITY
-                        && constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
-                                - state.moneySpent)
+                && (constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
+                        - state.moneySpent)
                 && state.energyDelay == -1;
     }
 
@@ -109,7 +105,7 @@ public class TownAgent {
     public TownSearchNode build1(TownSearchNode state) {
 
         // System.out.println(state.moneySpent);
-    
+
         state.prosperity += constants.prosperityBUILD1;
         state.food -= constants.foodUseBUILD1;
         state.materials -= constants.materialsUseBUILD1;
@@ -117,7 +113,6 @@ public class TownAgent {
         state.moneySpent += constants.priceBUILD1;
 
         // System.out.println(state.moneySpent);
-
 
         return state;
     }
@@ -152,6 +147,7 @@ public class TownAgent {
             default:
                 return newState;
         }
+
     }
 
     public TownSearchNode update(TownSearchNode state) {
@@ -182,7 +178,21 @@ public class TownAgent {
             newState.energyDelay = -1;
             newState.energy += constants.amountRequestEnergy;
         }
+        fixMax(newState);
         return newState;
+    }
+
+    void fixMax(TownSearchNode newState) {
+        if (newState.food > constants.MAX_RESOURCE_CAPACITY) {
+            newState.food = constants.MAX_RESOURCE_CAPACITY;
+        }
+        if (newState.materials > constants.MAX_RESOURCE_CAPACITY) {
+            newState.materials = constants.MAX_RESOURCE_CAPACITY;
+        }
+        if (newState.energy > constants.MAX_RESOURCE_CAPACITY) {
+            newState.energy = constants.MAX_RESOURCE_CAPACITY;
+        }
+
     }
 
 }

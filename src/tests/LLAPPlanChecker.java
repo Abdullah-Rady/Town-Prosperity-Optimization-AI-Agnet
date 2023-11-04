@@ -116,71 +116,71 @@ public class LLAPPlanChecker {
 
     }
 
-    public boolean er(String y) {
-        ArrayList<Integer> x = new ArrayList<>();
-        switch (y) {
+    public boolean checkAction(String action) {
+        ArrayList<Integer> actionList = new ArrayList<>();
+        switch (action) {
             case "FoodRequestAction":
-                x = foodList;
+                actionList = foodList;
                 break;
             case "MaterialRequestAction":
-                x = materialList;
+                actionList = materialList;
                 break;
             case "EnergyRequestAction":
-                x = energyList;
+                actionList = energyList;
                 break;
             case "WaitAction":
-                x = waitList;
+                actionList = waitList;
                 break;
-            case "E1":
-                x = buildOneList;
+            case "Build1":
+                actionList = buildOneList;
                 break;
-            case "E2":
-                x = buildTwoList;
+            case "Build2":
+                actionList = buildTwoList;
                 break;
             default:
-                x = new ArrayList<>();
+                actionList = new ArrayList<>();
                 break;
         }
-        return (this.food >= x.get(1) && this.material >= x.get(2) && this.energy >= x.get(3)
-                && this.maxBudget - this.moneySpent >= x.get(0));
+        return (this.food >= actionList.get(1) && this.material >= actionList.get(2) && this.energy >= actionList.get(3)
+                && this.maxBudget - this.moneySpent >= actionList.get(0));
     }
 
-    public void ur(String y) {
+    public void performAction(String action) {
 
-        ArrayList<Integer> x = new ArrayList<>();
+        ArrayList<Integer> currentList = new ArrayList<>();
 
-        switch (y) {
+        switch (action) {
             case "FoodRequestAction":
-                x = foodList;
+                currentList = foodList;
                 break;
             case "MaterialRequestAction":
-                x = materialList;
+                currentList = materialList;
                 break;
             case "EnergyRequestAction":
-                x = energyList;
+                currentList = energyList;
                 break;
             case "WaitAction":
-                x = waitList;
+                currentList = waitList;
                 break;
-            case "E1":
-                x = buildOneList;
+            case "Build1":
+                currentList = buildOneList;
                 break;
-            case "E2":
-                x = buildTwoList;
+            case "Build2":
+                currentList = buildTwoList;
                 break;
             default:
-                x = new ArrayList<>();
+                currentList = new ArrayList<>();
                 break;
         }
 
-        this.food -= x.get(1);
-        this.material -= x.get(2);
-        this.energy -= x.get(3);
-        this.moneySpent += x.get(0);
-        this.prosperity += x.get(4);
+        this.food -= currentList.get(1);
+        this.material -= currentList.get(2);
+        this.energy -= currentList.get(3);
+        this.moneySpent += currentList.get(0);
+        this.prosperity += currentList.get(4);
     }
 
-    void au() {
+    void update() {
         if (delayType != -1 && delay > 0) {
             delay--;
         }
@@ -200,7 +200,7 @@ public class LLAPPlanChecker {
         }
     }
 
-    void mc() {
+    void fixMax() {
         if (food > maxCapacity) {
             food = maxCapacity;
         }
@@ -213,9 +213,9 @@ public class LLAPPlanChecker {
     }
 
     boolean request(String an) {
-        au();
+        update();
         int i = -1;
-        if (!er(an)) {
+        if (!checkAction(an)) {
             return false;
         }
         switch (an) {
@@ -244,37 +244,37 @@ public class LLAPPlanChecker {
                 return false;
         }
         this.delayType = i;
-        ur(an);
-        mc();
+        performAction(an);
+        fixMax();
         return true;
     }
 
     boolean waitfunction() {
-        au();
-        if (!er("WaitAction")) {
+        update();
+        if (!checkAction("WaitAction")) {
             return false;
         }
-        ur("WaitAction");
-        mc();
+        performAction("WaitAction");
+        fixMax();
         return true;
     }
 
     boolean build(int i) {
-        au();
-        String an = "Build" + i;
-        if (!er(an)) {
+        update();
+        String action = "Build" + i;
+        if (!checkAction(action)) {
             return false;
         }
-        ur(an);
-        mc();
+        performAction(action);
+        fixMax();
         return true;
     }
 
-    public boolean tryPlan(String[] actions, LLAPPlanChecker s) {
+    public boolean tryPlan(String[] actionsArray, LLAPPlanChecker s) {
         boolean linkin = false;
-        for (int i = 0; i < actions.length; i++) {
+        for (int i = 0; i < actionsArray.length; i++) {
 
-            switch (actions[i]) {
+            switch (actionsArray[i]) {
                 case "requestfood":
                     linkin = s.request("FoodRequestAction");
                     break;
@@ -299,7 +299,7 @@ public class LLAPPlanChecker {
 
             }
             if (!linkin) {
-                System.out.println("action that failed: " + actions[i] + ", order: " + i);
+                System.out.println("action that failed: " + actionsArray[i] + ", order: " + i);
                 return false;
             }
         }
