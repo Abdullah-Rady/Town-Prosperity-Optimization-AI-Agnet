@@ -15,21 +15,26 @@ public class TownAgent {
     public boolean canRequestFood(TownSearchNode state) {
         return canConsumeResources(state)
                 && (constants.unitPriceFood * constants.amountRequestFood <= constants.budget - state.moneySpent)
-                && state.foodDelay == -1;
+                && noRequestPending(state);
+    }
+
+    public boolean noRequestPending(TownSearchNode state) {
+        return (state.foodDelay == -1 && state.materialsDelay == -1
+                && state.energyDelay == -1);
     }
 
     public boolean canRequestMaterials(TownSearchNode state) {
         return canConsumeResources(state)
                 && (constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget
                         - state.moneySpent)
-                && state.materialsDelay == -1;
+                && noRequestPending(state);
     }
 
     public boolean canRequestEnergy(TownSearchNode state) {
         return canConsumeResources(state)
                 && (constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
                         - state.moneySpent)
-                && state.energyDelay == -1;
+                && noRequestPending(state);
     }
 
     public boolean canWait(TownSearchNode state) {
@@ -51,7 +56,8 @@ public class TownAgent {
     }
 
     public boolean checkAction(Actions action, TownSearchNode state) {
-        TownSearchNode newState = update(state);
+        // TownSearchNode newState = update(state);
+        TownSearchNode newState = state;
         switch (action) {
             case RequestFood:
                 return canRequestFood(newState);
@@ -79,26 +85,27 @@ public class TownAgent {
 
     public TownSearchNode requestFood(TownSearchNode state) {
         consumeResources(state);
-        state.moneySpent += constants.unitPriceFood * constants.amountRequestFood;
+        state.moneySpent += constants.unitPriceFood + constants.unitPriceEnergy + constants.unitPriceMaterials;
         state.foodDelay = constants.delayRequestFood;
         return state;
     }
 
     public TownSearchNode requestMaterials(TownSearchNode state) {
         consumeResources(state);
-        state.moneySpent += constants.unitPriceMaterials * constants.amountRequestMaterial;
+        state.moneySpent += constants.unitPriceFood + constants.unitPriceEnergy + constants.unitPriceMaterials;
         state.materialsDelay = constants.delayRequestMaterial;
         return state;
     }
 
     public TownSearchNode requestEnergy(TownSearchNode state) {
         consumeResources(state);
-        state.moneySpent += constants.unitPriceEnergy * constants.amountRequestEnergy;
+        state.moneySpent += constants.unitPriceFood + constants.unitPriceEnergy + constants.unitPriceMaterials;
         state.energyDelay = constants.delayRequestEnergy;
         return state;
     }
 
     public TownSearchNode waitAction(TownSearchNode state) {
+        state.moneySpent += constants.unitPriceFood + constants.unitPriceMaterials + constants.unitPriceEnergy;
         return consumeResources(state);
     }
 
@@ -110,7 +117,9 @@ public class TownAgent {
         state.food -= constants.foodUseBUILD1;
         state.materials -= constants.materialsUseBUILD1;
         state.energy -= constants.energyUseBUILD1;
-        state.moneySpent += constants.priceBUILD1;
+        state.moneySpent += constants.priceBUILD1 + constants.unitPriceFood * constants.foodUseBUILD1
+                + constants.unitPriceMaterials * constants.materialsUseBUILD1
+                + constants.unitPriceEnergy * constants.energyUseBUILD1;
 
         // System.out.println(state.moneySpent);
 
@@ -123,7 +132,9 @@ public class TownAgent {
         state.food -= constants.foodUseBUILD2;
         state.materials -= constants.materialsUseBUILD2;
         state.energy -= constants.energyUseBUILD2;
-        state.moneySpent += constants.priceBUILD2;
+        state.moneySpent += constants.priceBUILD2 + constants.unitPriceFood * constants.foodUseBUILD2
+                + constants.unitPriceMaterials * constants.materialsUseBUILD2
+                + constants.unitPriceEnergy * constants.energyUseBUILD2;
 
         return state;
     }

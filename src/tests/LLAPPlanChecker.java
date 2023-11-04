@@ -148,7 +148,7 @@ public class LLAPPlanChecker {
     public void performAction(String action) {
 
         ArrayList<Integer> currentList = new ArrayList<>();
-
+        System.out.println("action: " + action);
         switch (action) {
             case "FoodRequestAction":
                 currentList = foodList;
@@ -178,6 +178,10 @@ public class LLAPPlanChecker {
         this.energy -= currentList.get(3);
         this.moneySpent += currentList.get(0);
         this.prosperity += currentList.get(4);
+        System.out.println("Prosperity: " + prosperity + ", Food: " + food +
+                ", Materials: " + material + ", Energy: " + energy +
+                ", Money Spent: " + moneySpent + " delayType: " + delayType + " delayAmount: " + delay);
+
     }
 
     void update() {
@@ -212,13 +216,13 @@ public class LLAPPlanChecker {
         }
     }
 
-    boolean request(String an) {
+    boolean request(String action) {
         update();
         int i = -1;
-        if (!checkAction(an)) {
+        if (!checkAction(action)) {
             return false;
         }
-        switch (an) {
+        switch (action) {
             case "FoodRequestAction":
                 if (this.maxBudget - this.moneySpent < this.foodList.get(0)) {
                     return false;
@@ -244,7 +248,7 @@ public class LLAPPlanChecker {
                 return false;
         }
         this.delayType = i;
-        performAction(an);
+        performAction(action);
         fixMax();
         return true;
     }
@@ -311,6 +315,7 @@ public class LLAPPlanChecker {
     }
 
     public boolean applyPlan(String grid, String solution) {
+        System.out.println(solution);
         boolean linkin = true;
         solution = solution.toLowerCase();
         if (solution.equals("nosolution")) {

@@ -143,11 +143,10 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.poll();
             TownSearchNode currentState = currentNode.state;
 
-            
-            if (visualize){
-                System.out.println(currentNode.depth);
+            if (visualize) {
+                // System.out.println(currentNode.depth);
                 System.out.println(tracePath(currentNode, nodesExpanded));
-                System.out.println(currentNode.action);
+                // System.out.println(currentNode.action);
                 System.out.println(currentState);
             }
 
@@ -185,10 +184,10 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.pop();
             TownSearchNode currentState = currentNode.state;
 
-            if (visualize){
-                System.out.println(currentNode.depth);
+            if (visualize) {
+                // System.out.println(currentNode.depth);
                 System.out.println(tracePath(currentNode, nodesExpanded));
-                System.out.println(currentNode.action);
+                // System.out.println(currentNode.action);
                 System.out.println(currentState);
             }
 
@@ -200,12 +199,13 @@ public class LLAPSearch extends GenericSearch {
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
-              System.out.println("action "+action + " " + agent.checkAction(action, currentState));
+                // System.out.println("action "+action + " " + agent.checkAction(action,
+                // currentState));
                 if (agent.checkAction(action, currentState)
                         && !visited.contains(agent.preformAction(action, currentState))) {
                     stack.push(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
-                           
+
                 }
 
             }
@@ -329,7 +329,6 @@ public class LLAPSearch extends GenericSearch {
         }
     }
 
-    
     public static String solve(String initialStateStr, String strategy, Boolean visualizein) {
         townConstants = TownStateParser.parseInitialState(initialStateStr);
         TownSearchNode initialState = townConstants.getInitialState();
