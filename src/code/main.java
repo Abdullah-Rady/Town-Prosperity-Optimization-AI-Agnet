@@ -11,7 +11,7 @@ public class Main {
                 "8255,8,7,9,36;" +
                 "30670,12,12,11,36;";
 
-        String strategy = "DF";
+        String strategy = "BF";
         boolean visualize = true;
         System.out.println(LLAPSearch.solve(initialStateStr, strategy, visualize));
 

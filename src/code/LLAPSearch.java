@@ -64,10 +64,9 @@ public class LLAPSearch extends GenericSearch {
 
             for (Actions action : Actions.values()) {
 
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -117,10 +116,9 @@ public class LLAPSearch extends GenericSearch {
 
             for (Actions action : Actions.values()) {
 
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    stack.push(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    stack.push(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -145,8 +143,13 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.poll();
             TownSearchNode currentState = currentNode.state;
 
-            if (visualize)
-                System.out.println(currentNode.depth + "\n" + currentState);
+            
+            if (visualize){
+                System.out.println(currentNode.depth);
+                System.out.println(tracePath(currentNode, nodesExpanded));
+                System.out.println(currentNode.action);
+                System.out.println(currentState);
+            }
 
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
@@ -157,10 +160,9 @@ public class LLAPSearch extends GenericSearch {
 
             for (Actions action : Actions.values()) {
 
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    stack.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    stack.add(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -183,8 +185,12 @@ public class LLAPSearch extends GenericSearch {
             Node currentNode = stack.pop();
             TownSearchNode currentState = currentNode.state;
 
-            if (visualize)
+            if (visualize){
+                System.out.println(currentNode.depth);
+                System.out.println(tracePath(currentNode, nodesExpanded));
+                System.out.println(currentNode.action);
                 System.out.println(currentState);
+            }
 
             if (currentNode.isGoal()) {
                 return tracePath(currentNode, nodesExpanded);
@@ -194,14 +200,12 @@ public class LLAPSearch extends GenericSearch {
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    stack.push(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+              System.out.println("action "+action + " " + agent.checkAction(action, currentState));
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    stack.push(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
-                            if (visualize) {
-                                System.out.println(action);
-                            }
+                           
                 }
 
             }
@@ -216,14 +220,13 @@ public class LLAPSearch extends GenericSearch {
 
         List<String> plan = new ArrayList<>();
 
-        int monetaryCost = 0;
+        int monetaryCost = node.state.moneySpent;
 
         Node currentNode = node;
 
         while (currentNode != null) {
             if (currentNode.action != null) {
                 plan.add(currentNode.action.toString());
-                monetaryCost += currentNode.state.moneySpent;
             }
             currentNode = currentNode.parentNode;
         }
@@ -257,10 +260,9 @@ public class LLAPSearch extends GenericSearch {
 
             for (Actions action : Actions.values()) {
 
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 
@@ -293,10 +295,9 @@ public class LLAPSearch extends GenericSearch {
 
             for (Actions action : Actions.values()) {
 
-                int actionValue = action.getValue();
-                if (agent.checkAction(actionValue, currentState)
-                        && !visited.contains(agent.preformAction(actionValue, currentState))) {
-                    queue.add(new Node(agent.preformAction(actionValue, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)
+                        && !visited.contains(agent.preformAction(action, currentState))) {
+                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
                 }
 

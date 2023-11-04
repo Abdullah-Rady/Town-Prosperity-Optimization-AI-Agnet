@@ -30,6 +30,8 @@ public class TownSearchNode {
         this.foodDelay = foodDelay;
         this.materialsDelay = materialsDelay;
         this.energyDelay = energyDelay;
+
+        // System.out.println(prosperity + " " + food + " " + materials + " " + energy + " " + moneySpent + " " + foodDelay + " " + materialsDelay + " " + energyDelay);
     }
 
     boolean isProsperous() {

@@ -1,5 +1,6 @@
 package code;
 
+
 public class TownAgent {
 
     TownConstants constants;
@@ -29,7 +30,7 @@ public class TownAgent {
 
     public boolean canRequestEnergy(TownSearchNode state) {
         return canConsumeResources(state)
-                && (state.energy + constants.amountRequestEnergy - 1 < constants.amountRequestEnergy
+                && (state.energy + constants.amountRequestEnergy - 1 <= constants.MAX_RESOURCE_CAPACITY
                         && constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
                                 - state.moneySpent)
                 && state.energyDelay == -1;
@@ -53,20 +54,20 @@ public class TownAgent {
                 && state.prosperity < 100);
     }
 
-    public boolean checkAction(int action, TownSearchNode state) {
+    public boolean checkAction(Actions action, TownSearchNode state) {
         TownSearchNode newState = update(state);
         switch (action) {
-            case 1:
+            case RequestFood:
                 return canRequestFood(newState);
-            case 2:
+            case RequestMaterials:
                 return canRequestMaterials(newState);
-            case 3:
+            case RequestEnergy:
                 return canRequestEnergy(newState);
-            case 4:
+            case Wait:
                 return canWait(newState);
-            case 5:
+            case Build1:
                 return canBuild1(newState);
-            case 6:
+            case Build2:
                 return canBuild2(newState);
             default:
                 return false;
@@ -107,13 +108,16 @@ public class TownAgent {
 
     public TownSearchNode build1(TownSearchNode state) {
 
-        // System.out.println(constants.priceBUILD1);
+        // System.out.println(state.moneySpent);
     
         state.prosperity += constants.prosperityBUILD1;
         state.food -= constants.foodUseBUILD1;
         state.materials -= constants.materialsUseBUILD1;
         state.energy -= constants.energyUseBUILD1;
         state.moneySpent += constants.priceBUILD1;
+
+        // System.out.println(state.moneySpent);
+
 
         return state;
     }
@@ -129,20 +133,21 @@ public class TownAgent {
         return state;
     }
 
-    public TownSearchNode preformAction(int n, TownSearchNode state) {
+    public TownSearchNode preformAction(Actions action, TownSearchNode state) {
         TownSearchNode newState = update(state);
-        switch (n) {
-            case 1:
+        // System.out.println("new state"+ newState);
+        switch (action) {
+            case RequestFood:
                 return requestFood(newState);
-            case 2:
+            case RequestMaterials:
                 return requestMaterials(newState);
-            case 3:
+            case RequestEnergy:
                 return requestEnergy(newState);
-            case 4:
+            case Wait:
                 return waitAction(newState);
-            case 5:
+            case Build1:
                 return build1(newState);
-            case 6:
+            case Build2:
                 return build2(newState);
             default:
                 return newState;
@@ -151,8 +156,9 @@ public class TownAgent {
 
     public TownSearchNode update(TownSearchNode state) {
         TownSearchNode newState = new TownSearchNode(state.prosperity, state.food, state.materials, state.energy,
-                state.energy,
+                state.moneySpent,
                 state.foodDelay, state.materialsDelay, state.energyDelay);
+
         if (newState.foodDelay > 0)
             newState.foodDelay--;
 

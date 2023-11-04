@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LLAPPlanChecker {
-    int v0;
+    int prosperity;
     int v1;
     int v2;
     int v3;
+
     HashMap<String, Integer> v4;
+
     ArrayList<Integer> v5;
     ArrayList<Integer> v6;
     ArrayList<Integer> v7;
@@ -16,11 +18,11 @@ public class LLAPPlanChecker {
     ArrayList<Integer> v9;
     ArrayList<Integer> v10;
 
-    int v11 = 100000;
+    int v11 = 100000; // max capacity
     int v12 = 0;
 
     int v13 = 0;
-    int v14 = 50;
+    int v14 = 50; // resources
 
     int v15 = -1;
 
@@ -28,7 +30,7 @@ public class LLAPPlanChecker {
 
         String[] splitState = str.split(";");
 
-        this.v0 = Integer.parseInt(splitState[0]);
+        this.prosperity = Integer.parseInt(splitState[0]);
 
         this.v1 = Integer.parseInt(splitState[1].split(",")[0]);
         this.v2 = Integer.parseInt(splitState[1].split(",")[1]);
@@ -149,7 +151,7 @@ public class LLAPPlanChecker {
         this.v2 -= x.get(2);
         this.v3 -= x.get(3);
         this.v12 += x.get(0);
-        this.v0 += x.get(4);
+        this.prosperity += x.get(4);
     }
 
     void au() {
@@ -184,7 +186,7 @@ public class LLAPPlanChecker {
         }
     }
 
-    boolean f1(String an) {
+    boolean request(String an) {
         au();
         int i = -1;
         if (!er(an)) {
@@ -221,7 +223,7 @@ public class LLAPPlanChecker {
         return true;
     }
 
-    boolean f3() {
+    boolean waitfunction() {
         au();
         if (!er("D")) {
             return false;
@@ -231,7 +233,7 @@ public class LLAPPlanChecker {
         return true;
     }
 
-    boolean f2(int i) {
+    boolean build(int i) {
         au();
         String an = "E" + i;
         if (!er(an)) {
@@ -248,22 +250,22 @@ public class LLAPPlanChecker {
 
             switch (actions[i]) {
                 case "requestfood":
-                    linkin = s.f1("A");
+                    linkin = s.request("A");
                     break;
                 case "requestenergy":
-                    linkin = s.f1("C");
+                    linkin = s.request("C");
                     break;
                 case "requestmaterials":
-                    linkin = s.f1("B");
+                    linkin = s.request("B");
                     break;
                 case "build1":
-                    linkin = s.f2(1);
+                    linkin = s.build(1);
                     break;
                 case "build2":
-                    linkin = s.f2(2);
+                    linkin = s.build(2);
                     break;
                 case "wait":
-                    linkin = s.f3();
+                    linkin = s.waitfunction();
                     break;
                 default:
                     linkin = false;
@@ -279,7 +281,7 @@ public class LLAPPlanChecker {
     }
 
     boolean cool() {
-        return this.v0 >= 100;
+        return this.prosperity >= 100;
     }
 
     public boolean applyPlan(String grid, String solution) {
