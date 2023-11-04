@@ -14,7 +14,8 @@ public class TownAgent {
 
     public boolean canRequestFood(TownSearchNode state) {
         return canConsumeResources(state)
-                && (constants.unitPriceFood * constants.amountRequestFood <= constants.budget - state.moneySpent)
+                && (constants.unitPriceFood + constants.unitPriceEnergy
+                        + constants.unitPriceMaterials <= constants.budget - state.moneySpent)
                 && noRequestPending(state);
     }
 
@@ -25,15 +26,17 @@ public class TownAgent {
 
     public boolean canRequestMaterials(TownSearchNode state) {
         return canConsumeResources(state)
-                && (constants.unitPriceMaterials * constants.amountRequestMaterial <= constants.budget
-                        - state.moneySpent)
+                && (constants.unitPriceFood + constants.unitPriceEnergy
+                        + constants.unitPriceMaterials <= constants.budget
+                                - state.moneySpent)
                 && noRequestPending(state);
     }
 
     public boolean canRequestEnergy(TownSearchNode state) {
         return canConsumeResources(state)
-                && (constants.unitPriceEnergy * constants.amountRequestEnergy <= constants.budget
-                        - state.moneySpent)
+                && (constants.unitPriceFood + constants.unitPriceEnergy
+                        + constants.unitPriceMaterials <= constants.budget
+                                - state.moneySpent)
                 && noRequestPending(state);
     }
 
@@ -45,6 +48,9 @@ public class TownAgent {
         return (state.food >= constants.foodUseBUILD1 && state.materials >= constants.materialsUseBUILD1
                 && state.energy >= constants.energyUseBUILD1
                 && constants.budget - state.moneySpent >= constants.priceBUILD1
+                        + constants.unitPriceFood * constants.foodUseBUILD1
+                        + constants.unitPriceMaterials * constants.materialsUseBUILD1
+                        + constants.unitPriceEnergy * constants.energyUseBUILD1
                 && state.prosperity < 100);
     }
 
@@ -52,6 +58,9 @@ public class TownAgent {
         return (state.food >= constants.foodUseBUILD2 && state.materials >= constants.materialsUseBUILD2
                 && state.energy >= constants.energyUseBUILD2
                 && constants.budget - state.moneySpent >= constants.priceBUILD2
+                        + constants.unitPriceFood * constants.foodUseBUILD2
+                        + constants.unitPriceMaterials * constants.materialsUseBUILD2
+                        + constants.unitPriceEnergy * constants.energyUseBUILD2
                 && state.prosperity < 100);
     }
 
