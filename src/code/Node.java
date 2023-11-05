@@ -15,10 +15,6 @@ public class Node {
         this.pathCost = pathCost;
     }
 
-    public Node() {
-
-    }
-
     public boolean isGoal() {
         return state.isProsperous();
     }

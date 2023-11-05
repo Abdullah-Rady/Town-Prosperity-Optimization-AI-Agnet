@@ -19,4 +19,14 @@ public enum Actions {
         return value;
     }
 
+    public static Actions[] valuesReversed() {
+        // working :return new Actions[] { Build1, Build2, Wait, RequestFood,
+        // RequestEnergy, RequestMaterials };
+        // working 2 : { Build1, Build2, Wait, RequestFood, RequestMaterials,
+        // RequestEnergy }
+        // working 3 : same as2 but switch builds
+
+        return new Actions[] { Build2, Build1, Wait, RequestFood, RequestMaterials, RequestEnergy };
+    }
+
 }

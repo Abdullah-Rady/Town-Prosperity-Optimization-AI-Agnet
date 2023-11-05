@@ -141,8 +141,10 @@ public class LLAPPlanChecker {
                 actionList = new ArrayList<>();
                 break;
         }
-        return (this.food >= actionList.get(1) && this.material >= actionList.get(2) && this.energy >= actionList.get(3)
-                && this.maxBudget - this.moneySpent >= actionList.get(0));
+        return (this.food >= actionList.get(1) &&
+                this.material >= actionList.get(2) &&
+                this.energy >= actionList.get(3) &&
+                this.maxBudget - this.moneySpent >= actionList.get(0));
     }
 
     public void performAction(String action) {
@@ -321,7 +323,6 @@ public class LLAPPlanChecker {
         if (solution.equals("nosolution")) {
             return false;
         }
-        // System.out.println(solution);
         String[] solutionArray = solution.split(";");
         String plan = solutionArray[0];
         int blue = Integer.parseInt(solutionArray[1]);

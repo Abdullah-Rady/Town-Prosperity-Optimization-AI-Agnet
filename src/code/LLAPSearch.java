@@ -13,20 +13,6 @@ import java.util.Stack;
 
 import static code.LLAPSearch.townConstants;
 
-// there is a problem when preforming/checking actions because objects are passed by refrence rather than value and 
-// in actions we alter the state so this could have an unexpected side effect
-// we can fix this by creating a new state in the preform action method and returing the new state
-
-// after preforming actions there is a difference of 1 between the actual value and the value that shouldve been returned 
-// ex. if food after build should be 5,6 is found instead
-
-// when running the case in main the code adds unreachable states this could be due to the check action method
-// when something is printed in a preform action it is printed twice for some reason
-
-// based on the issues above i think the problem is in the either the agent class or the solving strategies themselves
-
-// i checked all of the other code and it seems to be working fine apart from the issues above
-
 public class LLAPSearch extends GenericSearch {
     /**
      * @param initialStateStr
@@ -38,11 +24,12 @@ public class LLAPSearch extends GenericSearch {
     static TownAgent agent;
     static TownConstants townConstants;
     static boolean visualize;
+    static boolean isDFS = false;
 
     public static String UC(Node initial) {
-
+        isDFS = false;
         PriorityQueue<Node> queue = new PriorityQueue<>(new UCComparator());
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         queue.add(initial);
@@ -59,15 +46,17 @@ public class LLAPSearch extends GenericSearch {
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    queue.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                    visited.add(newState.getHashString());
                 }
 
             }
@@ -76,6 +65,7 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String ID(Node initial) {
+        isDFS = false;
         int depth = 0;
         while (true) {
             String result = DLS(initial, depth);
@@ -87,9 +77,9 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String DLS(Node initial, int depth) {
-
+        isDFS = false;
         Stack<Node> stack = new Stack<>();
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         stack.push(initial);
@@ -111,15 +101,17 @@ public class LLAPSearch extends GenericSearch {
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    stack.push(new Node(agent.preformAction(action, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    stack.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                    visited.add(newState.getHashString());
                 }
 
             }
@@ -131,9 +123,9 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String BFS(Node initial) {
-
+        isDFS = false;
         Queue<Node> stack = new LinkedList<>();
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         stack.add(initial);
@@ -141,12 +133,11 @@ public class LLAPSearch extends GenericSearch {
         while (!stack.isEmpty()) {
 
             Node currentNode = stack.poll();
+
             TownSearchNode currentState = currentNode.state;
 
             if (visualize) {
-                // System.out.println(currentNode.depth);
                 System.out.println(tracePath(currentNode, nodesExpanded));
-                // System.out.println(currentNode.action);
                 System.out.println(currentState);
             }
 
@@ -154,15 +145,17 @@ public class LLAPSearch extends GenericSearch {
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    stack.add(new Node(agent.preformAction(action, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    stack.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                    visited.add(newState.getHashString());
                 }
 
             }
@@ -172,9 +165,9 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String DFS(Node initial) {
-
+        isDFS = true;
         Stack<Node> stack = new Stack<>();
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         stack.push(initial);
@@ -185,9 +178,7 @@ public class LLAPSearch extends GenericSearch {
             TownSearchNode currentState = currentNode.state;
 
             if (visualize) {
-                // System.out.println(currentNode.depth);
                 System.out.println(tracePath(currentNode, nodesExpanded));
-                // System.out.println(currentNode.action);
                 System.out.println(currentState);
             }
 
@@ -195,17 +186,16 @@ public class LLAPSearch extends GenericSearch {
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
-            for (Actions action : Actions.values()) {
-                // System.out.println("action "+action + " " + agent.checkAction(action,
-                // currentState));
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    stack.push(new Node(agent.preformAction(action, currentState), currentNode, action,
+            for (Actions action : Actions.valuesReversed()) {
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    stack.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
-
+                    visited.add(newState.getHashString());
                 }
 
             }
@@ -237,8 +227,9 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String AStar(Node initial, boolean firstHeuristic) {
+        isDFS = false;
         PriorityQueue<Node> queue = new PriorityQueue<>(new AstarComparator(firstHeuristic));
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         queue.add(initial);
@@ -255,15 +246,17 @@ public class LLAPSearch extends GenericSearch {
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    queue.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                    visited.add(newState.getHashString());
                 }
 
             }
@@ -272,8 +265,9 @@ public class LLAPSearch extends GenericSearch {
     }
 
     public static String Greedy(Node initial, boolean firstHeuristic) {
+        isDFS = false;
         PriorityQueue<Node> queue = new PriorityQueue<>(new GreedyComparator(firstHeuristic));
-        Set<TownSearchNode> visited = new HashSet<>();
+        Set<String> visited = new HashSet<>();
         int nodesExpanded = 0;
 
         queue.add(initial);
@@ -287,18 +281,21 @@ public class LLAPSearch extends GenericSearch {
                 System.out.println(currentState);
 
             if (currentNode.isGoal()) {
+                System.out.println("Depth " + currentNode.depth);
                 return tracePath(currentNode, nodesExpanded);
             }
 
-            visited.add(currentState);
             nodesExpanded++;
 
             for (Actions action : Actions.values()) {
 
-                if (agent.checkAction(action, currentState)
-                        && !visited.contains(agent.preformAction(action, currentState))) {
-                    queue.add(new Node(agent.preformAction(action, currentState), currentNode, action,
+                if (agent.checkAction(action, currentState)) {
+                    TownSearchNode newState = agent.preformAction(action, currentState);
+                    if (visited.contains(newState.getHashString()))
+                        continue;
+                    queue.add(new Node(newState, currentNode, action,
                             currentNode.depth + 1, currentNode.pathCost + 1));
+                    visited.add(newState.getHashString());
                 }
 
             }

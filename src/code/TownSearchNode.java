@@ -7,7 +7,6 @@ public class TownSearchNode {
     int materials;
     int energy;
     int moneySpent;
-
     int foodDelay;
     int materialsDelay;
     int energyDelay;
@@ -30,40 +29,45 @@ public class TownSearchNode {
         this.foodDelay = foodDelay;
         this.materialsDelay = materialsDelay;
         this.energyDelay = energyDelay;
-
-        // System.out.println(prosperity + " " + food + " " + materials + " " + energy + " " + moneySpent + " " + foodDelay + " " + materialsDelay + " " + energyDelay);
     }
 
     boolean isProsperous() {
         return prosperity >= 100;
     }
 
-    @Override
-    public boolean equals(Object obj) {
+    public String getHashString() {
+        return food + ";" + materials + ";" + energy + ";" + getDelay() + ";" + getDelayType() + ";" + prosperity
+                + ";";
 
-        TownSearchNode other = (TownSearchNode) obj;
-        return prosperity == other.prosperity &&
-                food == other.food &&
-                materials == other.materials &&
-                energy == other.energy &&
-                moneySpent == other.moneySpent &&
-                foodDelay == other.foodDelay &&
-                materialsDelay == other.materialsDelay &&
-                energyDelay == other.energyDelay;
+        // working : f,m,e,d,dt,p
     }
 
-    @Override
-    public int hashCode() {
-        int result = 1;
-        result = 31 * result + prosperity;
-        result = 37 * result + food;
-        result = 41 * result + materials;
-        result = 43 * result + energy;
-        result = 47 * result + moneySpent;
-        result = 53 * result + foodDelay;
-        result = 59 * result + materialsDelay;
-        result = 61 * result + energyDelay;
-        return result;
+    public int getDelay() {
+        if (foodDelay > -1) {
+            return foodDelay;
+        }
+        if (materialsDelay > -1) {
+            return materialsDelay;
+        }
+        if (energyDelay > -1) {
+            return energyDelay;
+        }
+        return -1;
+
+    }
+
+    public int getDelayType() {
+        if (foodDelay > -1) {
+            return 0;
+        }
+        if (materialsDelay > -1) {
+            return 1;
+        }
+        if (energyDelay > -1) {
+            return 2;
+        }
+        return -1;
+
     }
 
     @Override
