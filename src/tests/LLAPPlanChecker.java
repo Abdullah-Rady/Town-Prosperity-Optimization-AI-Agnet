@@ -4,300 +4,266 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class LLAPPlanChecker {
-    int prosperity;
-    int food;
-    int material;
-    int energy;
+    int v0;
+    int v1;
+    int v2;
+    int v3;
+    HashMap<String, Integer> v4;
+    ArrayList<Integer> v5;
+    ArrayList<Integer> v6;
+    ArrayList<Integer> v7;
+    ArrayList<Integer> v8;
+    ArrayList<Integer> v9;
+    ArrayList<Integer> v10;
 
-    HashMap<String, Integer> unitPrices;
-    // vector code :
-    // 0 : spendMoney
-    // 1 : consumeFood
-    // 2 : consumeMaterial
-    // 3 : consumeEnergy
-    // 4 : prosperityGained
-    // 5 : delay
-    // 6 : delayType
-    ArrayList<Integer> foodList;
-    ArrayList<Integer> materialList;
-    ArrayList<Integer> energyList;
-    ArrayList<Integer> waitList;
-    ArrayList<Integer> buildOneList;
-    ArrayList<Integer> buildTwoList;
+    int v11 = 100000;
+    int v12 = 0;
 
-    int maxBudget = 100000;
-    int moneySpent = 0;
+    int v13 = 0;
+    int v14 = 50;
 
-    int delay = 0;
-    int maxCapacity = 50;
-
-    int delayType = -1;
+    int v15 = -1;
 
     public LLAPPlanChecker(String str) {
 
         String[] splitState = str.split(";");
 
-        this.prosperity = Integer.parseInt(splitState[0]);
+        this.v0 = Integer.parseInt(splitState[0]);
 
-        this.food = Integer.parseInt(splitState[1].split(",")[0]);
-        this.material = Integer.parseInt(splitState[1].split(",")[1]);
-        this.energy = Integer.parseInt(splitState[1].split(",")[2]);
+        this.v1 = Integer.parseInt(splitState[1].split(",")[0]);
+        this.v2 = Integer.parseInt(splitState[1].split(",")[1]);
+        this.v3 = Integer.parseInt(splitState[1].split(",")[2]);
 
-        this.unitPrices = new HashMap<String, Integer>();
-        unitPrices.put("FoodRequestAction", Integer.parseInt(splitState[2].split(",")[0]));
-        unitPrices.put("MaterialRequestAction", Integer.parseInt(splitState[2].split(",")[1]));
-        unitPrices.put("EnergyRequestAction", Integer.parseInt(splitState[2].split(",")[2]));
+        this.v4 = new HashMap<String, Integer>();
+        v4.put("A", Integer.parseInt(splitState[2].split(",")[0]));
+        v4.put("B", Integer.parseInt(splitState[2].split(",")[1]));
+        v4.put("C", Integer.parseInt(splitState[2].split(",")[2]));
 
-        this.foodList = new ArrayList<Integer>();
-        foodList.add(0);
-        foodList.add(1);
-        foodList.add(1);
-        foodList.add(1);
-        foodList.add(0);
-        foodList.add(Integer.parseInt(splitState[3].split(",")[0]));
-        foodList.add(Integer.parseInt(splitState[3].split(",")[1]));
-        foodList.set(0,
-                foodList.get(0) + foodList.get(1) * unitPrices.get("FoodRequestAction")
-                        + foodList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + foodList.get(3) * unitPrices.get("EnergyRequestAction"));
-        this.materialList = new ArrayList<Integer>();
-        materialList.add(0);
-        materialList.add(1);
-        materialList.add(1);
-        materialList.add(1);
-        materialList.add(0);
-        materialList.add(Integer.parseInt(splitState[4].split(",")[0]));
-        materialList.add(Integer.parseInt(splitState[4].split(",")[1]));
-        materialList.set(0,
-                materialList.get(0) + materialList.get(1) * unitPrices.get("FoodRequestAction")
-                        + materialList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + materialList.get(3) * unitPrices.get("EnergyRequestAction"));
-        this.energyList = new ArrayList<Integer>();
-        energyList.add(0);
-        energyList.add(1);
-        energyList.add(1);
-        energyList.add(1);
-        energyList.add(0);
-        energyList.add(Integer.parseInt(splitState[5].split(",")[0]));
-        energyList.add(Integer.parseInt(splitState[5].split(",")[1]));
-        energyList.set(0,
-                energyList.get(0) + energyList.get(1) * unitPrices.get("FoodRequestAction")
-                        + energyList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + energyList.get(3) * unitPrices.get("EnergyRequestAction"));
-        this.waitList = new ArrayList<Integer>();
-        waitList.add(0);
-        waitList.add(1);
-        waitList.add(1);
-        waitList.add(1);
-        waitList.add(0);
-        waitList.add(0);
-        waitList.add(0);
-        waitList.set(0,
-                waitList.get(0) + waitList.get(1) * unitPrices.get("FoodRequestAction")
-                        + waitList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + waitList.get(3) * unitPrices.get("EnergyRequestAction"));
+        this.v5 = new ArrayList<Integer>();
+        v5.add(0);
+        v5.add(1);
+        v5.add(1);
+        v5.add(1);
+        v5.add(0);
+        v5.add(Integer.parseInt(splitState[3].split(",")[0]));
+        v5.add(Integer.parseInt(splitState[3].split(",")[1]));
+        v5.set(0, v5.get(0) + v5.get(1) * v4.get("A") + v5.get(2) * v4.get("B") + v5.get(3) * v4.get("C"));
+        this.v6 = new ArrayList<Integer>();
+        v6.add(0);
+        v6.add(1);
+        v6.add(1);
+        v6.add(1);
+        v6.add(0);
+        v6.add(Integer.parseInt(splitState[4].split(",")[0]));
+        v6.add(Integer.parseInt(splitState[4].split(",")[1]));
+        v6.set(0, v6.get(0) + v6.get(1) * v4.get("A") + v6.get(2) * v4.get("B") + v6.get(3) * v4.get("C"));
+        this.v7 = new ArrayList<Integer>();
+        v7.add(0);
+        v7.add(1);
+        v7.add(1);
+        v7.add(1);
+        v7.add(0);
+        v7.add(Integer.parseInt(splitState[5].split(",")[0]));
+        v7.add(Integer.parseInt(splitState[5].split(",")[1]));
+        v7.set(0, v7.get(0) + v7.get(1) * v4.get("A") + v7.get(2) * v4.get("B") + v7.get(3) * v4.get("C"));
+        this.v8 = new ArrayList<Integer>();
+        v8.add(0);
+        v8.add(1);
+        v8.add(1);
+        v8.add(1);
+        v8.add(0);
+        v8.add(0);
+        v8.add(0);
+        v8.set(0, v8.get(0) + v8.get(1) * v4.get("A") + v8.get(2) * v4.get("B") + v8.get(3) * v4.get("C"));
 
-        this.buildOneList = new ArrayList<Integer>();
-        this.buildTwoList = new ArrayList<Integer>();
+        this.v9 = new ArrayList<Integer>();
+        this.v10 = new ArrayList<Integer>();
         for (int i = 0; i < 5; i++) {
             String par1 = splitState[6].split(",")[i];
-            buildOneList.add(Integer.parseInt(par1));
+            v9.add(Integer.parseInt(par1));
             String par2 = splitState[7].split(",")[i];
-            buildTwoList.add(Integer.parseInt(par2));
+            v10.add(Integer.parseInt(par2));
         }
-        buildOneList.set(0,
-                buildOneList.get(0) + buildOneList.get(1) * unitPrices.get("FoodRequestAction")
-                        + buildOneList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + buildOneList.get(3) * unitPrices.get("EnergyRequestAction"));
-        buildTwoList.set(0,
-                buildTwoList.get(0) + buildTwoList.get(1) * unitPrices.get("FoodRequestAction")
-                        + buildTwoList.get(2) * unitPrices.get("MaterialRequestAction")
-                        + buildTwoList.get(3) * unitPrices.get("EnergyRequestAction"));
+        v9.set(0, v9.get(0) + v9.get(1) * v4.get("A") + v9.get(2) * v4.get("B") + v9.get(3) * v4.get("C"));
+        v10.set(0, v10.get(0) + v10.get(1) * v4.get("A") + v10.get(2) * v4.get("B") + v10.get(3) * v4.get("C"));
 
     }
 
-    public boolean checkAction(String action) {
-        ArrayList<Integer> actionList = new ArrayList<>();
-        switch (action) {
-            case "FoodRequestAction":
-                actionList = foodList;
+    public boolean er(String y) {
+        ArrayList<Integer> x = new ArrayList<>();
+        switch (y) {
+            case "A":
+                x = v5;
                 break;
-            case "MaterialRequestAction":
-                actionList = materialList;
+            case "B":
+                x = v6;
                 break;
-            case "EnergyRequestAction":
-                actionList = energyList;
+            case "C":
+                x = v7;
                 break;
-            case "WaitAction":
-                actionList = waitList;
+            case "D":
+                x = v8;
                 break;
-            case "Build1":
-                actionList = buildOneList;
+            case "E1":
+                x = v9;
                 break;
-            case "Build2":
-                actionList = buildTwoList;
+            case "E2":
+                x = v10;
                 break;
             default:
-                actionList = new ArrayList<>();
+                x = new ArrayList<>();
                 break;
         }
-        return (this.food >= actionList.get(1) &&
-                this.material >= actionList.get(2) &&
-                this.energy >= actionList.get(3) &&
-                this.maxBudget - this.moneySpent >= actionList.get(0));
+        return (this.v1 >= x.get(1) && this.v2 >= x.get(2) && this.v3 >= x.get(3) && this.v11 - this.v12 >= x.get(0));
     }
 
-    public void performAction(String action) {
+    public void ur(String y) {
 
-        ArrayList<Integer> currentList = new ArrayList<>();
-        System.out.println("action: " + action);
-        switch (action) {
-            case "FoodRequestAction":
-                currentList = foodList;
+        ArrayList<Integer> x = new ArrayList<>();
+
+        switch (y) {
+            case "A":
+                x = v5;
                 break;
-            case "MaterialRequestAction":
-                currentList = materialList;
+            case "B":
+                x = v6;
                 break;
-            case "EnergyRequestAction":
-                currentList = energyList;
+            case "C":
+                x = v7;
                 break;
-            case "WaitAction":
-                currentList = waitList;
+            case "D":
+                x = v8;
                 break;
-            case "Build1":
-                currentList = buildOneList;
+            case "E1":
+                x = v9;
                 break;
-            case "Build2":
-                currentList = buildTwoList;
+            case "E2":
+                x = v10;
                 break;
             default:
-                currentList = new ArrayList<>();
+                x = new ArrayList<>();
                 break;
         }
 
-        this.food -= currentList.get(1);
-        this.material -= currentList.get(2);
-        this.energy -= currentList.get(3);
-        this.moneySpent += currentList.get(0);
-        this.prosperity += currentList.get(4);
-        System.out.println("Prosperity: " + prosperity + ", Food: " + food +
-                ", Materials: " + material + ", Energy: " + energy +
-                ", Money Spent: " + moneySpent + " delayType: " + delayType + " delayAmount: " + delay);
-
+        this.v1 -= x.get(1);
+        this.v2 -= x.get(2);
+        this.v3 -= x.get(3);
+        this.v12 += x.get(0);
+        this.v0 += x.get(4);
     }
 
-    void update() {
-        if (delayType != -1 && delay > 0) {
-            delay--;
+    void au() {
+        if (v15 != -1 && v13 > 0) {
+            v13--;
         }
-        if (this.delay == 0 && this.delayType != -1) {
+        if (this.v13 == 0 && this.v15 != -1) {
 
-            if (this.delayType == 0) {
-                this.food += this.foodList.get(5);
+            if (this.v15 == 0) {
+                this.v1 += this.v5.get(5);
             }
-            if (this.delayType == 1) {
-                this.material += this.materialList.get(5);
+            if (this.v15 == 1) {
+                this.v2 += this.v6.get(5);
             }
-            if (this.delayType == 2) {
-                this.energy += this.energyList.get(5);
+            if (this.v15 == 2) {
+                this.v3 += this.v7.get(5);
             }
-            this.delayType = -1;
-            this.delay = 0;
+            this.v15 = -1;
+            this.v13 = 0;
         }
     }
 
-    void fixMax() {
-        if (food > maxCapacity) {
-            food = maxCapacity;
+    void mc() {
+        if (v1 > v14) {
+            v1 = v14;
         }
-        if (material > maxCapacity) {
-            material = maxCapacity;
+        if (v2 > v14) {
+            v2 = v14;
         }
-        if (energy > maxCapacity) {
-            energy = maxCapacity;
+        if (v3 > v14) {
+            v3 = v14;
         }
     }
 
-    boolean request(String action) {
-        update();
+    boolean f1(String an) {
+        au();
         int i = -1;
-        if (!checkAction(action)) {
+        if (!er(an)) {
             return false;
         }
-        switch (action) {
-            case "FoodRequestAction":
-                if (this.maxBudget - this.moneySpent < this.foodList.get(0)) {
+        switch (an) {
+            case "A":
+                if (this.v11 - this.v12 < this.v5.get(0)) {
                     return false;
                 }
                 i = 0;
-                delay = foodList.get(6);
+                v13 = v5.get(6);
                 break;
-            case "MaterialRequestAction":
-                if (this.maxBudget - this.moneySpent < this.materialList.get(0)) {
+            case "B":
+                if (this.v11 - this.v12 < this.v6.get(0)) {
                     return false;
                 }
                 i = 1;
-                delay = materialList.get(6);
+                v13 = v6.get(6);
                 break;
-            case "EnergyRequestAction":
-                if (this.maxBudget - this.moneySpent < this.energyList.get(0)) {
+            case "C":
+                if (this.v11 - this.v12 < this.v7.get(0)) {
                     return false;
                 }
                 i = 2;
-                delay = energyList.get(6);
+                v13 = v7.get(6);
                 break;
             default:
                 return false;
         }
-        this.delayType = i;
-        performAction(action);
-        fixMax();
+        this.v15 = i;
+        ur(an);
+        mc();
         return true;
     }
 
-    boolean waitfunction() {
-        update();
-        if (!checkAction("WaitAction")) {
+    boolean f3() {
+        au();
+        if (!er("D")) {
             return false;
         }
-        performAction("WaitAction");
-        fixMax();
+        ur("D");
+        mc();
         return true;
     }
 
-    boolean build(int i) {
-        update();
-        String action = "Build" + i;
-        if (!checkAction(action)) {
+    boolean f2(int i) {
+        au();
+        String an = "E" + i;
+        if (!er(an)) {
             return false;
         }
-        performAction(action);
-        fixMax();
+        ur(an);
+        mc();
         return true;
     }
 
-    public boolean tryPlan(String[] actionsArray, LLAPPlanChecker s) {
+    public boolean tryPlan(String[] actions, LLAPPlanChecker s) {
         boolean linkin = false;
-        for (int i = 0; i < actionsArray.length; i++) {
+        for (int i = 0; i < actions.length; i++) {
 
-            switch (actionsArray[i]) {
+            switch (actions[i]) {
                 case "requestfood":
-                    linkin = s.request("FoodRequestAction");
-                    break;
-                case "requestmaterials":
-                    linkin = s.request("MaterialRequestAction");
+                    linkin = s.f1("A");
                     break;
                 case "requestenergy":
-                    linkin = s.request("EnergyRequestAction");
+                    linkin = s.f1("C");
+                    break;
+                case "requestmaterials":
+                    linkin = s.f1("B");
                     break;
                 case "build1":
-                    linkin = s.build(1);
+                    linkin = s.f2(1);
                     break;
                 case "build2":
-                    linkin = s.build(2);
+                    linkin = s.f2(2);
                     break;
                 case "wait":
-                    linkin = s.waitfunction();
+                    linkin = s.f3();
                     break;
                 default:
                     linkin = false;
@@ -305,24 +271,24 @@ public class LLAPPlanChecker {
 
             }
             if (!linkin) {
-                System.out.println("action that failed: " + actionsArray[i] + ", order: " + i);
+                System.out.println("action that failed: " + actions[i] + ", order: " + i);
                 return false;
             }
         }
         return true;
     }
 
-    boolean isGoal() {
-        return this.prosperity >= 100;
+    boolean cool() {
+        return this.v0 >= 100;
     }
 
     public boolean applyPlan(String grid, String solution) {
-        System.out.println(solution);
         boolean linkin = true;
         solution = solution.toLowerCase();
         if (solution.equals("nosolution")) {
             return false;
         }
+        // System.out.println(solution);
         String[] solutionArray = solution.split(";");
         String plan = solutionArray[0];
         int blue = Integer.parseInt(solutionArray[1]);
@@ -340,6 +306,6 @@ public class LLAPPlanChecker {
             return false;
         }
 
-        return s.isGoal() && s.moneySpent == blue;
+        return s.cool() && s.v12 == blue;
     }
 }

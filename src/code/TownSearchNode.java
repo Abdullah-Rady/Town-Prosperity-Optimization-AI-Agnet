@@ -36,7 +36,8 @@ public class TownSearchNode {
     }
 
     public String getHashString() {
-        return food + ";" + materials + ";" + energy + ";" + getDelay() + ";" + getDelayType() + ";" + prosperity
+        return food + ";" + materials + ";" + energy + ";" +
+                getDelay() + ";" + getDelayType() + ";" + prosperity
                 + ";";
 
         // working : f,m,e,d,dt,p
