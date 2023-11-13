@@ -18,11 +18,11 @@ public class Transitioner {
     }
 
     public int getMinBuilds(int prosperity, TownConstants constants) {
-        return (100 - prosperity) / Math.max(constants.prosperityBUILD1, constants.priceBUILD2);
+        return (100 - prosperity) / Math.max(constants.prosperityBUILD1, constants.prosperityBUILD2);
     }
 
     public int getMinBuildsMoney(int prosperity, TownConstants constants) {
-        return getMinBuilds(prosperity, constants) * Math.min(constants.foodUseBUILD1, constants.foodUseBUILD2);
+        return getMinBuilds(prosperity, constants) * Math.min(constants.priceBUILD1, constants.priceBUILD2);
     }
 
     public int getMinBuildsFood(int prosperity, TownConstants constants) {

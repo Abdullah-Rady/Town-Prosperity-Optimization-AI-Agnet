@@ -31,7 +31,7 @@ public class Main {
                                 "5015,25,15,15,38;";
 
                 String strategy = "DF";
-                boolean visualize = false;
+                boolean visualize = true;
                 System.out.println(LLAPSearch.solve(initialState4, strategy, visualize));
         }
 }

@@ -69,6 +69,7 @@ public abstract class GenericSearch {
                 System.out.println(currentState);
 
             if (currentNode.isGoal()) {
+                System.out.println(nodesExpanded);
                 return tracePath(currentNode, nodesExpanded);
             }
 
