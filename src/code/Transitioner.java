@@ -7,10 +7,10 @@ public class Transitioner {
         this.firstHeuristic = firstHeuristic;
     }
 
-    public int calculateHeuristic(int actionValue, TownConstants constants) {
+    public int calculateHeuristic(int prosperity, TownConstants constants) {
         if (firstHeuristic)
-            return firstHeuristicFunction(actionValue, constants);
-        return secondHeuristicFunction(actionValue, constants);
+            return firstHeuristicFunction(prosperity, constants);
+        return secondHeuristicFunction(prosperity, constants);
     }
 
     private int firstHeuristicFunction(int prosperity, TownConstants constants) {
