@@ -25,8 +25,10 @@ public abstract class GenericSearch {
         Collection<Node> abstractDT = createCorrespondingADT(strategy);
         Node initialNode = new Node(initialState, null, null, 0, 0);
         visualize = visualizein;
-        if (strategy == "ID")
+
+        if (strategy.equals("ID"))
             return ID(initialNode, abstractDT);
+            
         return genericSearch(initialNode, abstractDT);
     }
 
