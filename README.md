@@ -10,26 +10,14 @@ The town's prosperity is measured numerically, and the challenge is to find a pl
 
 ## Features
 
-- **Search Algorithms:** The agent utilizes various search algorithms, including Depth-First Search (DFS), Breadth-First Search (BFS), heuristic search, and A* to efficiently explore the solution space.
+- **Search Algorithms:** The agent utilizes various search algorithms, including Depth-First Search (DFS), Breadth-First Search (BFS), Iterative Deepening Search (ID), Greedy Seach, heuristic search, and A* to efficiently explore the solution space.
   
 - **Prolog Implementation:** Additionally, a Prolog implementation using a knowledge base and predicate logic is provided. This implementation allows for a logical representation of the problem domain and facilitates intelligent reasoning.
-
-## Usage
-
-To use the AI agent:
-
-1. Clone the repository.
-2. Choose the appropriate search algorithm or Prolog implementation based on your preferences or requirements.
-3. Run the agent with the desired input parameters, considering the town's budget, resource constraints, and other relevant factors.
 
 ## Folder Structure
 
 - **/src:** Contains source code for the AI agent.
 - **/prolog:** Includes Prolog implementation files for knowledge base and predicate logic.
-
-## Contributing
-
-Contributions are welcome! Feel free to enhance existing algorithms, improve the Prolog implementation, or suggest new features. Please follow the contribution guidelines in the `CONTRIBUTING.md` file.
 
 ## License
 
